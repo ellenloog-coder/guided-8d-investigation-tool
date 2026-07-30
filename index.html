@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>8D Methodology Master v32 Beta - Evidence Integrity Engine</title>
 <link rel="stylesheet" href="ai-assistant.css?v=20260730-6" />
+<link rel="stylesheet" href="feedback-widget.css?v=20260730-1" />
 <style>
 
 :root{
@@ -1713,4 +1714,16 @@ window.QualityCopilotConfig = {
 };
 </script>
 <script src="ai-assistant.js?v=20260730-6"></script>
+<script>
+window.BlendexFeedbackConfig = {
+  tool: "guided_8d_investigation",
+  toolName: "8D Problem Solving",
+  toolVersion: "v32 Beta",
+  language: () => state.lang === "en" ? "en" : "zh",
+  metadata: () => ({
+    currentModule: typeof activeTabId === "function" ? activeTabId() : ""
+  })
+};
+</script>
+<script src="feedback-widget.js?v=20260730-1"></script>
 </body></html>

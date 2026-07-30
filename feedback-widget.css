@@ -1,0 +1,215 @@
+.bxf-feedback-button,
+.bxf-feedback-overlay,
+.bxf-feedback-dialog,
+.bxf-feedback-dialog * {
+  box-sizing: border-box;
+}
+
+.bxf-feedback-button {
+  position: fixed;
+  right: var(--floating-right-desktop, 24px);
+  bottom: calc(
+    var(--floating-bottom-desktop, 24px) +
+    env(safe-area-inset-bottom) +
+    var(--ai-launcher-height, 50px) +
+    var(--floating-action-gap-desktop, 14px)
+  );
+  z-index: 9997;
+  min-height: var(--feedback-button-height, 38px);
+  border: 1px solid #dbe7f3;
+  border-radius: 999px;
+  background: #fff;
+  color: #2563eb;
+  padding: 8px 15px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+  font: 900 12px/1.2 Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+
+.bxf-feedback-button:hover {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+
+.bxf-feedback-button:focus-visible,
+.bxf-feedback-close:focus-visible,
+.bxf-feedback-action:focus-visible,
+.bxf-feedback-dialog textarea:focus-visible,
+.bxf-feedback-dialog input:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.22);
+  outline-offset: 2px;
+}
+
+.bxf-feedback-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(15, 23, 42, 0.42);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.bxf-feedback-overlay[hidden] {
+  display: none !important;
+}
+
+.bxf-feedback-dialog {
+  width: min(520px, 100%);
+  max-height: calc(100vh - 36px);
+  overflow: auto;
+  border: 1px solid #dbe7f3;
+  border-radius: 18px;
+  background: #fff;
+  color: #111827;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.24);
+  padding: 22px;
+}
+
+.bxf-feedback-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.bxf-feedback-header h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.bxf-feedback-close {
+  flex: 0 0 auto;
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+  min-height: 34px;
+  border: 1px solid #e5edf6;
+  border-radius: 999px;
+  background: #fff;
+  color: #64748b;
+  padding: 0;
+  font: 500 20px/1 system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.bxf-feedback-form {
+  display: grid;
+  gap: 13px;
+  margin: 0;
+}
+
+.bxf-feedback-field {
+  display: grid;
+  gap: 7px;
+  color: #344054;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.bxf-feedback-dialog textarea,
+.bxf-feedback-dialog input {
+  width: 100%;
+  border: 1px solid #d7dce5;
+  border-radius: 10px;
+  background: #fff;
+  color: #111827;
+  padding: 10px 11px;
+  font: 400 13px/1.45 Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.bxf-feedback-dialog textarea {
+  min-height: 132px;
+  max-height: 220px;
+  resize: vertical;
+}
+
+.bxf-feedback-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bxf-feedback-status {
+  min-height: 18px;
+  margin: 0;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.bxf-feedback-status.error {
+  color: #b91c1c;
+}
+
+.bxf-feedback-status.success {
+  color: #15803d;
+}
+
+.bxf-feedback-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.bxf-feedback-action {
+  min-height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: #111827;
+  color: #fff;
+  padding: 9px 14px;
+  font: 800 13px/1.2 Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+
+.bxf-feedback-action.secondary {
+  border: 1px solid #d7dce5;
+  background: #fff;
+  color: #344054;
+}
+
+.bxf-feedback-action:disabled,
+.bxf-feedback-close:disabled {
+  cursor: wait;
+  opacity: 0.58;
+}
+
+@media (max-width: 620px) {
+  .bxf-feedback-button {
+    right: var(--floating-right-mobile, 16px);
+    bottom: calc(
+      var(--floating-bottom-mobile, 16px) +
+      env(safe-area-inset-bottom) +
+      var(--ai-launcher-height, 50px) +
+      var(--floating-action-gap-mobile, 12px)
+    );
+    padding: 8px 12px;
+  }
+
+  .bxf-feedback-dialog {
+    padding: 18px;
+  }
+
+  .bxf-feedback-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media print {
+  .bxf-feedback-button,
+  .bxf-feedback-overlay {
+    display: none !important;
+  }
+}
