@@ -226,20 +226,24 @@
   border-top:1px solid #eef2f7;
 }
 .eightdAiSources>strong{display:block;margin-bottom:6px;color:#475467;font-size:10px}
-.eightdAiSources>div{display:flex;flex-wrap:wrap;gap:5px}
-.eightdAiSources span{
-  display:block;
-  max-width:100%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  border:1px solid #d7dce5;
-  border-radius:999px;
-  background:#f8fafc;
-  padding:5px 7px;
+.eightdAiSourceList{display:grid;gap:6px}
+.eightdAiSourceList details{overflow:hidden;border:1px solid #d7dce5;border-radius:10px;background:#f8fafc}
+.eightdAiSourceList summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:8px 9px;
   color:#475467;
   font-size:9px;
+  cursor:pointer;
+  list-style:none;
 }
+.eightdAiSourceList summary::-webkit-details-marker{display:none}
+.eightdAiSourceList summary span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:800}
+.eightdAiSourceList summary small{flex:none;color:#625bff;font-size:8px}
+.eightdAiSourceList p{margin:0;padding:0 9px 7px;color:#475467;font-size:10px;line-height:1.5}
+.eightdAiSourceList footer{padding:7px 9px;border-top:1px solid #e5e7eb;color:#98a2b3;font-size:8px}
 .eightdAiLocalHeader{display:grid;gap:7px}
 .eightdAiLocalHeader>button{
   justify-self:start;
@@ -253,6 +257,97 @@
 }
 .eightdAiLocalHeader h4{margin:2px 0 0;font-size:14px}
 .eightdAiLocalHeader p{margin:0;color:#667085;font-size:11px;line-height:1.45}
+.eightdAiKnowledgeSearch{
+  display:grid;
+  justify-items:center;
+  gap:8px;
+  margin-top:12px;
+  padding:20px 14px 16px;
+  border:1px solid #dddafe;
+  border-radius:16px;
+  background:linear-gradient(145deg,#f8f7ff,#f1f7ff);
+  text-align:center;
+}
+.eightdAiSearchMark{
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#625bff,#47b7ff);
+  color:#fff;
+  font-size:14px;
+  font-weight:900;
+  box-shadow:0 8px 18px rgba(98,91,255,.2);
+}
+.eightdAiKnowledgeSearch h4{margin:2px 0 0;color:#111827;font-size:16px}
+.eightdAiKnowledgeSearch p{margin:0;max-width:320px;color:#667085;font-size:11px;line-height:1.55}
+.eightdAiSearchForm{
+  width:100%;
+  display:flex;
+  gap:6px;
+  margin-top:6px;
+  padding:5px;
+  border:1px solid #cfd5e1;
+  border-radius:12px;
+  background:#fff;
+  box-shadow:0 8px 22px rgba(15,23,42,.07);
+}
+.eightdAiSearchForm:focus-within{border-color:#8177ff;box-shadow:0 0 0 3px rgba(99,91,255,.1)}
+.eightdAiSearchForm input{min-width:0;flex:1;padding:8px;border:0;outline:0;background:transparent;color:#111827;font:11px/1.4 Inter,system-ui,sans-serif}
+.eightdAiSearchForm button{flex:none;padding:8px 11px;border:0;border-radius:8px;background:#625bff;color:#fff;font-size:10px;font-weight:800;cursor:pointer}
+.eightdAiCategoryRow{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-top:10px}
+.eightdAiCategoryRow span{padding:5px 7px;border:1px solid #e2e8f0;border-radius:999px;background:#fff;color:#667085;font-size:9px}
+.eightdAiPopular{margin-top:17px}
+.eightdAiPopular>strong{display:block;margin-bottom:8px;color:#344054;font-size:11px}
+.eightdAiPopular>div{display:grid;gap:7px}
+.eightdAiPopular button{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  width:100%;
+  padding:10px 11px;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  background:#fff;
+  color:#344054;
+  text-align:left;
+  font-size:10px;
+  cursor:pointer;
+}
+.eightdAiPopular button:hover,.eightdAiPopular button:focus-visible{border-color:#8177ff;color:#5148c7;outline:0}
+.eightdAiConversationHeader{
+  position:sticky;
+  top:-15px;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin:-15px -15px 10px;
+  padding:10px 14px;
+  border-bottom:1px solid #e5e7eb;
+  background:rgba(252,252,253,.96);
+  backdrop-filter:blur(8px);
+}
+.eightdAiConversationHeader>button{padding:0;border:0;background:transparent;color:#5148c7;font-size:10px;font-weight:800;cursor:pointer}
+.eightdAiConversationHeader div{min-width:0;display:grid}
+.eightdAiConversationHeader strong{color:#111827;font-size:11px}
+.eightdAiConversationHeader small{color:#98a2b3;font-size:9px}
+.eightdAiFollowups{display:grid;gap:6px}
+.eightdAiFollowups button{
+  width:100%;
+  padding:8px 9px;
+  border:1px solid #dcd9ff;
+  border-radius:9px;
+  background:#f8f7ff;
+  color:#5148c7;
+  text-align:left;
+  font-size:10px;
+  line-height:1.4;
+  cursor:pointer;
+}
+.eightdAiFollowups button:hover,.eightdAiFollowups button:focus-visible{border-color:#8177ff;background:#f1efff;outline:0}
 .eightdAiTemplateGrid{display:grid;gap:9px;margin-top:13px}
 .eightdAiTemplateCard{padding:12px;border:1px solid #e5e7eb;border-radius:12px;background:#fff}
 .eightdAiTemplateCard strong{display:block;font-size:12px}
@@ -288,9 +383,10 @@
   border-radius:12px;
   background:#fff;
 }
-.eightdAiGraphRow span{
+.eightdAiGraphRow button{
   min-width:0;
   padding:7px;
+  border:0;
   border-radius:8px;
   background:#eef2ff;
   color:#3730a3;
@@ -298,7 +394,9 @@
   font-weight:800;
   text-align:center;
   overflow-wrap:anywhere;
+  cursor:pointer;
 }
+.eightdAiGraphRow button:hover,.eightdAiGraphRow button:focus-visible{background:#dddafe;outline:2px solid #8177ff;outline-offset:1px}
 .eightdAiGraphRow small{color:#98a2b3;font-size:8px;text-align:center}
 .eightdAiThinking{display:inline-flex;gap:5px;align-items:center;color:#98a2b3}
 .eightdAiThinking span{width:5px;height:5px;border-radius:50%;background:#98a2b3;animation:eightdAiPulse 1s infinite ease-in-out}

@@ -36,7 +36,15 @@
       localOnly: "本功能在浏览器本地运行，不会发送案例数据。",
       templatesTitle: "8D 模板库",
       graphTitle: "8D 知识图谱",
-      placeholder: "询问当前 8D 步骤……",
+      graphHint: "点击任一节点，查看它在 8D 中的专业解释、证据要求和应用方法。",
+      knowledgeTitle: "8D 专业知识搜索",
+      knowledgeIntro: "像使用搜索引擎一样提问。助手会从 8D 方法、证据规则、工程方法和验证知识中组织答案，并标明适用边界。",
+      knowledgeSearchPlaceholder: "例如：5 Why 为什么不能单独证明根因？",
+      knowledgeSearch: "搜索",
+      popularQuestions: "常见问题",
+      continueQuestion: "继续追问",
+      sourceExpand: "展开知识条目",
+      placeholder: "询问 8D 方法、证据或当前步骤……",
       send: "发送",
       note: "AI 只提供建议；正式判断仍由工程人员和 Gate Engine 完成。",
       thinking: "正在分析当前步骤",
@@ -48,6 +56,17 @@
       quickReview: "请审查当前步骤，指出最重要的三个缺口和下一步。",
       quickEvidence: "当前步骤还需要哪些证据，才能形成可审计的结论？",
       quickQuestions: "请生成下一轮最有区分力的调查问题，并说明每个问题要验证什么。",
+      knowledgeTopics: [
+        "8D 每个步骤应交付哪些证据？",
+        "如何区分发生原因、流出原因和系统原因？",
+        "5 Why 为什么不能单独证明根因？",
+        "什么时候应使用 DOE？",
+        "如何判断遏制措施覆盖充分？",
+        "MSA 如何影响根因证据可信度？",
+        "纠正措施有效性应如何验证？",
+        "8D 关闭需要哪些证据？",
+      ],
+      knowledgeCategories: ["8D 基础", "证据链", "根因分析", "验证方法", "工程工具", "质量标准"],
       modules: {
         knowledge_assistant: { icon: "K", title: "8D 知识助手", desc: "检索方法、步骤目标、证据要求和常见错误。", question: "请解释当前步骤的目标、必需证据、适用工程方法和常见错误。" },
         evidence_intelligence: { icon: "EV", title: "证据智能", desc: "识别缺失、矛盾和需要补充的验证。", question: "请建立当前步骤的必需证据、缺失证据和验证方法映射，并指出证据矛盾。" },
@@ -79,6 +98,18 @@
         confidence_notes: "置信度",
         limitations: "限制与人工确认",
       },
+      knowledgeSections: {
+        observed_facts: "问题理解",
+        step_assessment: "专业解答",
+        missing_information: "需要先确认的条件",
+        investigation_questions: "相关问题",
+        recommended_checks: "如何应用",
+        required_evidence: "实践要点",
+        retrieval_insights: "知识库依据",
+        draft_suggestions: "可直接使用的表达",
+        confidence_notes: "答案置信度",
+        limitations: "适用边界",
+      },
     },
     en: {
       launcher: "AI Quality Assistant",
@@ -101,7 +132,15 @@
       localOnly: "This feature runs locally in the browser and does not send case data.",
       templatesTitle: "8D Template Library",
       graphTitle: "8D Knowledge Graph",
-      placeholder: "Ask about the current 8D step...",
+      graphHint: "Select any node to see its professional meaning, evidence needs, and use in 8D.",
+      knowledgeTitle: "8D Professional Knowledge Search",
+      knowledgeIntro: "Ask as you would use a search engine. The assistant organizes answers from 8D methods, evidence rules, engineering methods, and verification knowledge.",
+      knowledgeSearchPlaceholder: "For example: Why does 5 Why not prove root cause by itself?",
+      knowledgeSearch: "Search",
+      popularQuestions: "Popular questions",
+      continueQuestion: "Continue with a follow-up",
+      sourceExpand: "Expand knowledge entry",
+      placeholder: "Ask about 8D methods, evidence, or the current step...",
       send: "Send",
       note: "AI provides guidance only; formal decisions remain with engineers and the Gate Engine.",
       thinking: "Reviewing the current step",
@@ -113,6 +152,17 @@
       quickReview: "Review the current step and identify the three most important gaps and next actions.",
       quickEvidence: "What evidence is still required for an auditable conclusion at this step?",
       quickQuestions: "Generate the next discriminating investigation questions and state what each question should verify.",
+      knowledgeTopics: [
+        "What evidence should each 8D step deliver?",
+        "How do occurrence, escape, and system causes differ?",
+        "Why does 5 Why not prove root cause by itself?",
+        "When should DOE be used?",
+        "How can containment coverage be judged?",
+        "How does MSA affect root-cause evidence?",
+        "How should corrective-action effectiveness be verified?",
+        "What evidence is required to close an 8D?",
+      ],
+      knowledgeCategories: ["8D fundamentals", "Evidence chain", "Root cause", "Verification", "Engineering methods", "Standards"],
       modules: {
         knowledge_assistant: { icon: "K", title: "8D Knowledge Assistant", desc: "Retrieve methods, step goals, evidence needs, and common mistakes.", question: "Explain the current step goal, required evidence, suitable engineering methods, and common mistakes." },
         evidence_intelligence: { icon: "EV", title: "Evidence Intelligence", desc: "Find missing, conflicting, and insufficient verification evidence.", question: "Map required evidence, missing evidence, and verification methods for the current step, including contradictions." },
@@ -144,12 +194,25 @@
         confidence_notes: "Confidence",
         limitations: "Limitations and human review",
       },
+      knowledgeSections: {
+        observed_facts: "Question interpretation",
+        step_assessment: "Professional answer",
+        missing_information: "Conditions to clarify",
+        investigation_questions: "Related questions",
+        recommended_checks: "How to apply it",
+        required_evidence: "Practice points",
+        retrieval_insights: "Knowledge-base rationale",
+        draft_suggestions: "Reusable wording",
+        confidence_notes: "Answer confidence",
+        limitations: "Scope and limits",
+      },
     },
   };
 
   let messages = [];
   let waiting = false;
   let localView = "home";
+  let activeMode = "free_question";
 
   function language() {
     return typeof state !== "undefined" && state.lang === "en" ? "en" : "zh";
@@ -471,12 +534,16 @@
     if (!waiting && !messages.length) renderMessages();
   }
 
-  function renderResult(result) {
+  function renderResult(result, mode = "free_question") {
     const labels = t();
+    const sectionLabels = mode === "knowledge_assistant" ? labels.knowledgeSections : labels.sections;
     return SECTION_KEYS.map((key) => {
       const items = Array.isArray(result?.[key]) ? result[key].filter(Boolean) : [];
       if (!items.length) return "";
-      return `<section class="eightdAiSection"><h4>${escapeHtml(labels.sections[key])}</h4><ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>`;
+      const content = mode === "knowledge_assistant" && key === "investigation_questions"
+        ? `<div class="eightdAiFollowups">${items.map((item) => `<button type="button" data-knowledge-query="${escapeHtml(item)}">${escapeHtml(item)}</button>`).join("")}</div>`
+        : `<ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+      return `<section class="eightdAiSection"><h4>${escapeHtml(sectionLabels[key])}</h4>${content}</section>`;
     }).join("");
   }
 
@@ -523,8 +590,36 @@
     `;
   }
 
+  function renderKnowledgeSearch() {
+    const labels = t();
+    return `
+      <div class="eightdAiLocalHeader">
+        <button type="button" data-ai-back>← ${escapeHtml(labels.back)}</button>
+      </div>
+      <section class="eightdAiKnowledgeSearch">
+        <span class="eightdAiSearchMark">K</span>
+        <h4>${escapeHtml(labels.knowledgeTitle)}</h4>
+        <p>${escapeHtml(labels.knowledgeIntro)}</p>
+        <form class="eightdAiSearchForm" data-knowledge-search>
+          <input type="search" maxlength="1400" required placeholder="${escapeHtml(labels.knowledgeSearchPlaceholder)}">
+          <button type="submit">${escapeHtml(labels.knowledgeSearch)}</button>
+        </form>
+      </section>
+      <div class="eightdAiCategoryRow">
+        ${labels.knowledgeCategories.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+      </div>
+      <section class="eightdAiPopular">
+        <strong>${escapeHtml(labels.popularQuestions)}</strong>
+        <div>${labels.knowledgeTopics.map((item) => `<button type="button" data-knowledge-query="${escapeHtml(item)}">${escapeHtml(item)}<span>→</span></button>`).join("")}</div>
+      </section>
+    `;
+  }
+
   function renderKnowledgeGraph() {
     const labels = t();
+    const nodeQuestion = (node, related) => language() === "zh"
+      ? `${node} 在 8D 中是什么意思？它如何与 ${related} 建立可审计关系，需要哪些证据？`
+      : `What does ${node} mean in 8D? How does it form an auditable relationship with ${related}, and what evidence is required?`;
     const relations = language() === "zh"
       ? [
           ["问题", "需要", "证据"],
@@ -550,14 +645,14 @@
       <div class="eightdAiLocalHeader">
         <button type="button" data-ai-back>← ${escapeHtml(labels.back)}</button>
         <h4>${escapeHtml(labels.graphTitle)}</h4>
-        <p>${escapeHtml(labels.localOnly)}</p>
+        <p>${escapeHtml(labels.graphHint)}</p>
       </div>
       <div class="eightdAiGraph">
         ${relations.map(([from, relation, to]) => `
           <div class="eightdAiGraphRow">
-            <span>${escapeHtml(from)}</span>
+            <button type="button" data-knowledge-query="${escapeHtml(nodeQuestion(from, to))}">${escapeHtml(from)}</button>
             <small>${escapeHtml(relation)} →</small>
-            <span>${escapeHtml(to)}</span>
+            <button type="button" data-knowledge-query="${escapeHtml(nodeQuestion(to, from))}">${escapeHtml(to)}</button>
           </div>
         `).join("")}
       </div>
@@ -570,7 +665,13 @@
     return `
       <div class="eightdAiSources">
         <strong>${escapeHtml(t().sources)}</strong>
-        <div>${items.map((item) => `<span title="${escapeHtml(item.kind || "")}">${escapeHtml(item.id)} · ${escapeHtml(item.title)}</span>`).join("")}</div>
+        <div class="eightdAiSourceList">${items.map((item) => `
+          <details>
+            <summary><span>${escapeHtml(item.id)} · ${escapeHtml(item.title)}</span><small>${escapeHtml(t().sourceExpand)}</small></summary>
+            <p>${escapeHtml(item.summary || "")}</p>
+            <footer>${escapeHtml(item.kind || "")} · ${escapeHtml((item.steps || []).join(" / "))}</footer>
+          </details>
+        `).join("")}</div>
       </div>
     `;
   }
@@ -581,12 +682,17 @@
     if (!messages.length) {
       box.innerHTML = localView === "templates"
         ? renderTemplates()
+        : localView === "knowledge_search"
+          ? renderKnowledgeSearch()
         : localView === "knowledge_graph"
           ? renderKnowledgeGraph()
           : renderModuleHome();
       return;
     }
-    box.innerHTML = messages.map((message, index) => {
+    const contextHeader = activeMode === "knowledge_assistant"
+      ? `<div class="eightdAiConversationHeader"><button type="button" data-ai-back>← ${escapeHtml(t().back)}</button><div><strong>${escapeHtml(t().knowledgeTitle)}</strong><small>${escapeHtml(t().continueQuestion)}</small></div></div>`
+      : "";
+    box.innerHTML = contextHeader + messages.map((message, index) => {
       if (message.pending) {
         return `<div class="eightdAiMessage assistant"><div class="eightdAiBubble"><span class="eightdAiThinking">${escapeHtml(t().thinking)} <span></span><span></span><span></span></span></div></div>`;
       }
@@ -596,7 +702,7 @@
       if (message.error) {
         return `<div class="eightdAiMessage assistant error"><div class="eightdAiBubble">${escapeHtml(message.content)}</div></div>`;
       }
-      return `<div class="eightdAiMessage assistant"><div class="eightdAiBubble">${renderResult(message.result)}${renderRetrieval(message.retrieval)}<button type="button" class="eightdAiCopy" data-copy-index="${index}">${escapeHtml(t().copy)}</button></div></div>`;
+      return `<div class="eightdAiMessage assistant"><div class="eightdAiBubble">${renderResult(message.result, message.mode)}${renderRetrieval(message.retrieval)}<button type="button" class="eightdAiCopy" data-copy-index="${index}">${escapeHtml(t().copy)}</button></div></div>`;
     }).join("");
     box.scrollTop = box.scrollHeight;
   }
@@ -626,7 +732,8 @@
     const send = document.getElementById("eightdAiSend");
     const includeText = document.getElementById("eightdAiIncludeText").checked;
     const priorHistory = historyForRequest();
-    localView = "home";
+    activeMode = mode;
+    localView = mode === "knowledge_assistant" ? "knowledge_results" : "home";
     messages.push({ role: "user", content: clean });
     messages.push({ role: "assistant", pending: true });
     input.value = "";
@@ -687,11 +794,12 @@
     document.getElementById("eightdAiClear").addEventListener("click", () => {
       messages = [];
       localView = "home";
+      activeMode = "free_question";
       renderMessages();
     });
     document.getElementById("eightdAiForm").addEventListener("submit", (event) => {
       event.preventDefault();
-      ask(document.getElementById("eightdAiInput").value);
+      ask(document.getElementById("eightdAiInput").value, activeMode);
     });
     document.getElementById("eightdAiInput").addEventListener("keydown", (event) => {
       if (event.key === "Enter" && !event.shiftKey) {
@@ -704,7 +812,12 @@
       const module = event.target.closest("[data-ai-module]");
       if (module) {
         const mode = module.dataset.aiModule;
-        if (mode === "templates" || mode === "knowledge_graph") {
+        if (mode === "knowledge_assistant") {
+          activeMode = mode;
+          localView = "knowledge_search";
+          messages = [];
+          renderMessages();
+        } else if (mode === "templates" || mode === "knowledge_graph") {
           localView = mode;
           renderMessages();
         } else {
@@ -712,9 +825,18 @@
         }
         return;
       }
+      const searchForm = event.target.closest("[data-knowledge-search]");
+      if (searchForm && event.type === "click") return;
       if (event.target.closest("[data-ai-back]")) {
+        messages = [];
+        activeMode = "free_question";
         localView = "home";
         renderMessages();
+        return;
+      }
+      const knowledgeQuery = event.target.closest("[data-knowledge-query]");
+      if (knowledgeQuery) {
+        ask(knowledgeQuery.dataset.knowledgeQuery, "knowledge_assistant");
         return;
       }
       const templateButton = event.target.closest("[data-template-index]");
@@ -736,6 +858,14 @@
         await navigator.clipboard.writeText(text);
         copy.textContent = t().copied;
       }
+    });
+    panel.addEventListener("submit", (event) => {
+      const search = event.target.closest("[data-knowledge-search]");
+      if (!search) return;
+      event.preventDefault();
+      const query = search.querySelector("input")?.value || "";
+      messages = [];
+      ask(query, "knowledge_assistant");
     });
     document.addEventListener("click", (event) => {
       if (event.target.closest(".tab") || event.target.closest("#langBtn")) {
