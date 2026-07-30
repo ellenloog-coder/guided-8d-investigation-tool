@@ -309,6 +309,11 @@
     updateLanguage();
   }
 
+  window.BlendexFeedback = Object.freeze({
+    open: openDialog,
+    close: closeDialog
+  });
+
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount, { once: true });
   else mount();
 })();
