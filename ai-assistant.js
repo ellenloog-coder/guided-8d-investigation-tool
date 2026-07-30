@@ -5,6 +5,8 @@
     currentTool: "unknown",
     analysisButtonTarget: "main",
     insertButtonAfter: true,
+    showInlineLauncher: true,
+    autoHoverOpen: false,
     language: null,
     ...(window.QualityCopilotConfig || {}),
   };
@@ -13,9 +15,11 @@
     open: false,
     waiting: false,
     openedTracked: false,
+    hoverDismissed: false,
     messages: [],
     lastRequest: null
   };
+  let hoverCloseTimer = null;
 
   const COPY = {
     en: {
@@ -516,6 +520,7 @@
   }
 
   function insertInlineButton() {
+    if (!config.showInlineLauncher) return;
     const target = document.querySelector(config.analysisButtonTarget);
     if (!target || document.querySelector("[data-qai-inline]")) return;
     const copy = t();
@@ -553,6 +558,10 @@
   `;
 
   document.body.append(button, panel);
+  if (config.autoHoverOpen) {
+    button.classList.add("qai-hover-enabled");
+    panel.classList.add("qai-hover-enabled");
+  }
   const title = panel.querySelector(".qai-title");
   const subtitle = panel.querySelector(".qai-subtitle");
   const privacy = panel.querySelector(".qai-privacy");
@@ -561,12 +570,16 @@
   const note = panel.querySelector(".qai-note");
 
   button.addEventListener("click", () => {
+    state.hoverDismissed = false;
     if (state.open) closePanel();
     else openPanel();
   });
 
   panel.addEventListener("click", event => {
-    if (event.target.closest("[data-qai-close]")) closePanel();
+    if (event.target.closest("[data-qai-close]")) {
+      state.hoverDismissed = true;
+      closePanel();
+    }
     if (event.target.closest("[data-qai-reset]")) {
       state.messages = [];
       state.lastRequest = null;
@@ -591,6 +604,25 @@
   });
 
   input.addEventListener("input", resizeInput);
+  if (config.autoHoverOpen) {
+    const cancelHoverClose = () => {
+      if (hoverCloseTimer) clearTimeout(hoverCloseTimer);
+      hoverCloseTimer = null;
+    };
+    const scheduleHoverClose = () => {
+      cancelHoverClose();
+      hoverCloseTimer = setTimeout(() => {
+        if (state.open) closePanel();
+      }, 280);
+    };
+    button.addEventListener("mouseenter", () => {
+      cancelHoverClose();
+      if (!state.hoverDismissed && !state.open) openPanel();
+    });
+    button.addEventListener("mouseleave", scheduleHoverClose);
+    panel.addEventListener("mouseenter", cancelHoverClose);
+    panel.addEventListener("mouseleave", scheduleHoverClose);
+  }
   window.addEventListener("languagechange", refreshLanguage);
   document.addEventListener("change", () => setTimeout(refreshLanguage, 0));
   document.addEventListener("click", event => {
