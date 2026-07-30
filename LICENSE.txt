@@ -1,0 +1,9 @@
+Copyright © 2026 Blendex Labs
+
+All rights reserved.
+
+This software, including workflow design, user interface,
+report structure, and implementation logic, is proprietary.
+
+No unauthorized copying, redistribution, modification,
+or commercial use is permitted.

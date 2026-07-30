@@ -1,25 +1,31 @@
-# Guided 8D Investigation Tool
+# 8D Methodology Master
 
-A bilingual, browser-based guided 8D investigation and reporting workspace.
+A lightweight yet complete 8D guide and workspace for structured problem-solving excellence.
 
-## Current version
+Version:
+v32 Beta
 
-v31 — Evidence Integrity Engine release candidate
+Status:
+Controlled Beta
 
-## Current validation status
+## Features
 
-- JavaScript syntax check passed
-- Embedded self-tests: 42 cases
-- Chinese and English demo cases included
-- v22 / v30 / v31 migration paths retained
-- Full real-browser interaction regression is still pending
+- Guided D0-D8 workflow
+- Evidence Integrity Engine
+- Root Cause investigation workflow
+- Corrective Action tracking
+- Effectiveness Verification
+- Gate Review
+- Workspace Backup and Restore
+- Internal / Customer Report Export
 
-## Data handling
+## Data Privacy
 
-The application runs locally in the browser. Attachments are not uploaded to a server.
+- Data stays in browser storage.
+- Evidence files are not uploaded.
+- Users control export and backup files.
 
-Attachment metadata may be stored locally, but attachment data URLs are not restored after reopening a saved session.
+## Beta Status
 
-## Release status
-
-This version is a release candidate pending local browser acceptance testing. It should not yet be treated as the final stable release.
+This is a controlled beta release.
+Users should validate outputs according to their own quality procedures.
