@@ -13,9 +13,9 @@
 
   const COPY = {
     zh: {
-      launcher: "8D AI 助手",
-      title: "8D 领域助手",
-      beta: "同主页 AI · 领域知识版",
+      launcher: "AI 质量助手",
+      title: "AI 质量助手",
+      beta: "8D 领域 Copilot",
       close: "关闭",
       clear: "清空对话",
       privacy: "默认只发送当前步骤的结构化状态，不发送客户、产品、供应商、负责人或附件。",
@@ -48,9 +48,9 @@
       },
     },
     en: {
-      launcher: "8D AI Assistant",
-      title: "8D Domain Assistant",
-      beta: "Homepage AI · domain edition",
+      launcher: "AI Quality Assistant",
+      title: "AI Quality Assistant",
+      beta: "8D Domain Copilot",
       close: "Close",
       clear: "Clear conversation",
       privacy: "By default, only structured step status is sent. Customer, product, supplier, owner, and attachment data are excluded.",
@@ -348,15 +348,18 @@
     launcher.type = "button";
     launcher.className = "eightdAiLauncher";
     launcher.id = "eightdAiLauncher";
+    launcher.setAttribute("aria-expanded", "false");
+    launcher.setAttribute("aria-controls", "eightdAiPanel");
 
     const panel = document.createElement("aside");
     panel.className = "eightdAiPanel";
     panel.id = "eightdAiPanel";
     panel.setAttribute("aria-hidden", "true");
+    panel.setAttribute("aria-label", "AI Quality Assistant");
     panel.innerHTML = `
       <div class="eightdAiHeader">
         <div class="eightdAiIdentity">
-          <span class="eightdAiMark">8D</span>
+          <span class="eightdAiMark">AI</span>
           <div><div class="eightdAiTitle" id="eightdAiTitle"></div><div class="eightdAiMeta" id="eightdAiMeta"></div></div>
         </div>
         <div class="eightdAiHeaderActions">
@@ -376,7 +379,7 @@
       <div class="eightdAiMessages" id="eightdAiMessages" aria-live="polite"></div>
       <form class="eightdAiComposer" id="eightdAiForm">
         <div class="eightdAiInputWrap">
-          <textarea class="eightdAiInput" id="eightdAiInput" rows="2" maxlength="1400"></textarea>
+          <textarea class="eightdAiInput" id="eightdAiInput" rows="1" maxlength="1400"></textarea>
           <button class="eightdAiSend" id="eightdAiSend" type="submit">↑</button>
         </div>
         <div class="eightdAiComposerNote" id="eightdAiNote"></div>
@@ -439,6 +442,12 @@
       return `<div class="eightdAiMessage assistant"><div class="eightdAiBubble">${renderResult(message.result)}<button type="button" class="eightdAiCopy" data-copy-index="${index}">${escapeHtml(t().copy)}</button></div></div>`;
     }).join("");
     box.scrollTop = box.scrollHeight;
+  }
+
+  function resizeInput() {
+    const input = document.getElementById("eightdAiInput");
+    input.style.height = "auto";
+    input.style.height = `${Math.min(input.scrollHeight, 100)}px`;
   }
 
   function historyForRequest() {
@@ -510,11 +519,13 @@
       refreshLanguage();
       panel.classList.add("open");
       panel.setAttribute("aria-hidden", "false");
+      launcher.setAttribute("aria-expanded", "true");
       document.getElementById("eightdAiInput").focus();
     });
     document.getElementById("eightdAiClose").addEventListener("click", () => {
       panel.classList.remove("open");
       panel.setAttribute("aria-hidden", "true");
+      launcher.setAttribute("aria-expanded", "false");
       launcher.focus();
     });
     document.getElementById("eightdAiClear").addEventListener("click", () => {
@@ -531,6 +542,7 @@
         document.getElementById("eightdAiForm").requestSubmit();
       }
     });
+    document.getElementById("eightdAiInput").addEventListener("input", resizeInput);
     panel.addEventListener("click", async (event) => {
       const quick = event.target.closest("[data-ai-mode]");
       if (quick) {
