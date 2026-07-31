@@ -1,4 +1,6 @@
-# 8D Methodology Master v32 Beta
+# 8D Problem Solving Beta
+
+中文名称：8D问题解决工具
 
 ## Highlights
 

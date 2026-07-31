@@ -1,9 +1,11 @@
-# 8D Methodology Master
+# 8D Problem Solving
+
+中文名称：8D问题解决工具
 
 A lightweight yet complete 8D guide and workspace for structured problem-solving excellence.
 
 Version:
-v32 Beta
+Beta
 
 Status:
 Controlled Beta
