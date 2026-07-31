@@ -2458,6 +2458,126 @@ qsa('.tab').forEach(btn=>btn.onclick=()=>activateTab(btn.dataset.tab));
 state.fields.date=today(); renderAll();
 </script>
 <script>
+window.QualityCopilotConfig = {
+  currentTool: "guided_8d_investigation",
+  rulesUrl: "vda8d-ai-rules.json",
+  analysisButtonTarget: ".reportPane .bd",
+  insertButtonAfter: false,
+  language: () => state.lang === "en" ? "en" : "zh",
+  quickQuestions: {
+    zh: [
+      "解释我当前的 8D 状态",
+      "下一步应该调查什么？",
+      "当前步骤还缺什么证据？",
+      "如何区分D4四类发生与未检出原因？",
+      "帮我起草供应商跟进问题"
+    ],
+    en: [
+      "Explain my current 8D status",
+      "What should I investigate next?",
+      "What evidence is missing at the current step?",
+      "How do the four D4 occurrence and non-detection causes differ?",
+      "Help me draft supplier follow-up questions"
+    ]
+  },
+  requiresPageContext: question => {
+    const text = String(question || "").toLowerCase();
+    return /当前|这个|这份|页面|报告|结果|我的|下一步|缺什么|缺少|证据缺口|能否进入|是否可以进入|是否可以关闭|状态|解释我|\bgate\b|\bcurrent\b|\bmy\s+8d\b|\bnext step\b|\bmissing evidence\b|\bready to (?:proceed|close)\b/.test(text);
+  },
+  currentStep: () => {
+    const tab = typeof activeTabId === "function" ? activeTabId() : "intake";
+    if (/^d[0-8]$/i.test(tab)) return tab.toUpperCase();
+    if (tab === "gate" || tab === "settings") return "GATE";
+    return "GLOBAL";
+  },
+  collectSummary: () => {
+    if (typeof syncFromDom === "function") syncFromDom();
+    if (typeof ensureV31State === "function") ensureV31State();
+    const tab = typeof activeTabId === "function" ? activeTabId() : "intake";
+    const stepMap = { intake: "INTAKE", risk: "INTAKE", timeline: "INTAKE", gate: "GATE", settings: "GATE" };
+    const currentStep = stepMap[tab] || (/^d[0-8]$/i.test(tab) ? tab.toUpperCase() : "INTAKE");
+    const integrity = state.integrity || {};
+    const evidence = Array.isArray(integrity.evidence) ? integrity.evidence : [];
+    const containments = Array.isArray(integrity.containments) ? integrity.containments : [];
+    const causes = Array.isArray(integrity.rootCauses) ? integrity.rootCauses : [];
+    const actions = Array.isArray(integrity.correctiveActions) ? integrity.correctiveActions : [];
+    const verifications = Array.isArray(integrity.verifications) ? integrity.verifications : [];
+    let gate = { finalStatus: "Unavailable", blocks: {} };
+    let risk = {};
+    try { gate = buildGateResult(); } catch {}
+    try { risk = riskCalc(); } catch {}
+    const issues = Object.values(gate.blocks || {}).flatMap(block =>
+      Array.isArray(block?.issues) ? block.issues : []
+    );
+    const issueMessages = issues.slice(0, 10).map(issue => {
+      try { return typeof msg === "function" ? msg(issue) : String(issue?.message || issue?.code || ""); }
+      catch { return String(issue?.message || issue?.code || ""); }
+    }).filter(Boolean);
+    const countCause = (type, status) => causes.filter(item =>
+      String(item?.type || "").toLowerCase() === type.toLowerCase()
+      && (!status || String(item?.status || "").toLowerCase() === status.toLowerCase())
+    ).length;
+    const zh = state.lang !== "en";
+    const summaryMetrics = zh ? {
+      "当前 8D 步骤": currentStep,
+      "Gate 状态": String(gate.finalStatus || "Unavailable"),
+      "Gate 未关闭问题": String(issues.length),
+      "风险优先级": String(risk?.p || ""),
+      "风险评分": String(risk?.score ?? ""),
+      "证据记录数": String(evidence.length),
+      "遏制措施记录数": String(containments.length),
+      "已确认发生原因": String(countCause("Occurrence", "Confirmed")),
+      "已确认流出原因": String(countCause("Escape", "Confirmed")),
+      "已确认系统原因": String(countCause("System", "Confirmed")),
+      "纠正措施数": String(actions.length),
+      "有效性验证数": String(verifications.length)
+    } : {
+      "current 8D step": currentStep,
+      "Gate status": String(gate.finalStatus || "Unavailable"),
+      "open Gate issues": String(issues.length),
+      "risk priority": String(risk?.p || ""),
+      "risk score": String(risk?.score ?? ""),
+      "evidence records": String(evidence.length),
+      "containment records": String(containments.length),
+      "occurrence causes confirmed": String(countCause("Occurrence", "Confirmed")),
+      "escape causes confirmed": String(countCause("Escape", "Confirmed")),
+      "system causes confirmed": String(countCause("System", "Confirmed")),
+      "corrective actions": String(actions.length),
+      "effectiveness verifications": String(verifications.length)
+    };
+    return {
+      current_tool: "guided_8d_investigation",
+      analysis_type: `8D Problem Solving - ${currentStep}`,
+      available_context: zh ? [
+        "当前 8D 步骤",
+        "Gate 状态和问题数",
+        "风险优先级和评分",
+        "证据记录数",
+        "遏制措施记录数",
+        "已确认的发生、流出和系统原因数量",
+        "纠正措施数",
+        "有效性验证数"
+      ] : [
+        "current 8D step",
+        "Gate status and issue count",
+        "risk priority and score",
+        "evidence record count",
+        "containment record count",
+        "confirmed occurrence, escape, and system cause counts",
+        "corrective action count",
+        "effectiveness verification count"
+      ],
+      summary_metrics: summaryMetrics,
+      deterministic_interpretation: issueMessages.length
+        ? `${String(gate.finalStatus || "")}. ${issueMessages.join(" ")}`
+        : String(gate.finalStatus || ""),
+      has_results: true
+    };
+  }
+};
+</script>
+<script src="ai-assistant.js?v=20260731-7-vda8d"></script>
+<script>
 window.BlendexFeedbackConfig = {
   tool: "guided_8d_investigation",
   toolName: "8D Problem Solving",

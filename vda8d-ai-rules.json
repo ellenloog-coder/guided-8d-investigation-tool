@@ -1,0 +1,2970 @@
+{
+  "package": {
+    "package_id": "vda8d-ai-rules",
+    "version": "1.0.0",
+    "languages": [
+      "zh-CN",
+      "en"
+    ],
+    "source": {
+      "title": "VDA 8D - Problem Solving in 8 Disciplines",
+      "edition": "1st edition, May 2018; English edition published July 2018",
+      "interpretation_note": {
+        "zh": "本规则包是对用户提供英文版手册的准确转述，不替代手册；手册说明德文版为法律意义上的正式版本。",
+        "en": "This package accurately paraphrases the user-supplied English manual and does not replace it; the manual states that the German edition is the legally authoritative version."
+      }
+    },
+    "scope": {
+      "zh": "供8D AI助手进行信息质量检查、追问和一致性提示；不自动批准、关闭或声称认证。",
+      "en": "For an 8D AI assistant to check information quality, ask follow-up questions, and flag consistency issues; it does not approve, close, or claim certification."
+    }
+  },
+  "source_types": {
+    "VDA_BASIC": {
+      "zh": "VDA评估中的基础要求或手册明确的必要过程要求，可用于基础完成判断。",
+      "en": "A VDA assessment basic requirement or an explicit necessary process requirement; it may be used in baseline completion decisions."
+    },
+    "VDA_EXCELLENCE": {
+      "zh": "高于基础要求的优秀标准，只能单独提示，不得进入基础完成条件。",
+      "en": "An excellence criterion above the baseline; it must be reported separately and must not enter baseline completion conditions."
+    },
+    "VDA_METHOD_GUIDANCE": {
+      "zh": "VDA建议的方法、工具、机会或风险提示；除非组织另有规定，不作为单独强制完成条件。",
+      "en": "A VDA-recommended method, tool, opportunity, or risk note; unless the organization says otherwise, it is not a standalone mandatory completion condition."
+    },
+    "PRODUCT_RULE": {
+      "zh": "产品自行定义的交互、流程或安全规则，不宣称来自VDA。",
+      "en": "A product-defined interaction, workflow, or safety rule that is not represented as a VDA requirement."
+    },
+    "PRODUCT_ENGINEERING_CONTROL": {
+      "zh": "产品的数字化完整性控制，例如Revision、Fingerprint、Stale和Gate，不宣称来自VDA。",
+      "en": "A product digital-integrity control such as Revision, Fingerprint, Stale, or Gate; it is not represented as a VDA requirement."
+    }
+  },
+  "information_states": [
+    {
+      "state": "FACT",
+      "zh": "事实：由可核查记录、测量或直接观察支持。",
+      "en": "Fact: supported by a checkable record, measurement, or direct observation."
+    },
+    {
+      "state": "USER_STATEMENT",
+      "zh": "用户陈述：用户提供但尚未独立核实的信息。",
+      "en": "User statement: information supplied by the user but not independently verified."
+    },
+    {
+      "state": "HYPOTHESIS",
+      "zh": "假设：待验证的可能解释。",
+      "en": "Hypothesis: a possible explanation awaiting verification."
+    },
+    {
+      "state": "VERIFIED_ROOT_CAUSE",
+      "zh": "已验证根因：与D2事实一致并有被动和/或主动验证证据支持的原因。",
+      "en": "Verified root cause: a cause consistent with D2 facts and supported by passive and/or active verification evidence."
+    },
+    {
+      "state": "MISSING_INFORMATION",
+      "zh": "缺失信息：判断所需内容尚未提供。",
+      "en": "Missing information: content needed for a decision has not been supplied."
+    },
+    {
+      "state": "MISSING_EVIDENCE",
+      "zh": "缺失证据：存在结论性陈述，但没有足够证据支撑。",
+      "en": "Missing evidence: a conclusion is stated without adequate support."
+    },
+    {
+      "state": "RECOMMENDATION",
+      "zh": "建议：AI或团队提出的非事实性选项。",
+      "en": "Recommendation: a non-factual option proposed by the AI or team."
+    },
+    {
+      "state": "PLANNED_ACTION",
+      "zh": "计划措施：已选择或安排，但尚未证明实施。",
+      "en": "Planned action: selected or scheduled, but not shown as implemented."
+    },
+    {
+      "state": "IMPLEMENTED_ACTION",
+      "zh": "已实施措施：有实施记录，但尚不等于有效性已验证。",
+      "en": "Implemented action: supported by an implementation record, but not necessarily validated as effective."
+    },
+    {
+      "state": "VALIDATED_RESULT",
+      "zh": "已验证结果：依据预先定义的判据和实际结果证明有效。",
+      "en": "Validated result: effectiveness demonstrated against predefined criteria using actual results."
+    }
+  ],
+  "disciplines": {
+    "D0": {
+      "title": {
+        "zh": "启动与适用性判断（产品规则）",
+        "en": "Initiation and Applicability Decision (Product Rule)"
+      },
+      "vda_status": {
+        "zh": "D0不是VDA 2018正式Discipline；VDA正式流程从D1到D8。",
+        "en": "D0 is not a formal discipline in VDA 2018; the formal VDA process runs from D1 through D8."
+      },
+      "purpose": {
+        "zh": "记录原始症状、风险、适用性与启动决定，并避免在信息不足时伪造完整8D。",
+        "en": "Record the initial symptom, risk, applicability, and initiation decision, while preventing a complete 8D from being fabricated when information is insufficient."
+      },
+      "necessary_inputs": [
+        {
+          "zh": "原始症状或已识别偏差",
+          "en": "Initial symptom or identified deviation"
+        },
+        {
+          "zh": "现有事实、影响和紧急风险",
+          "en": "Available facts, impact, and urgent risk"
+        },
+        {
+          "zh": "是否需要跨职能团队的判断依据",
+          "en": "Basis for deciding whether a cross-functional team is needed"
+        }
+      ],
+      "check_conditions": [
+        {
+          "zh": "偏差是否足够完整、清楚且可理解",
+          "en": "Whether the deviation is sufficiently complete, clear, and understandable"
+        },
+        {
+          "zh": "问题是否超出单人解决能力",
+          "en": "Whether solving the problem exceeds one person's capability"
+        }
+      ],
+      "completion_conditions": [
+        {
+          "zh": "启动/不启动决定、理由、责任人和待补信息已记录",
+          "en": "The start/do-not-start decision, rationale, owner, and missing information are recorded"
+        }
+      ],
+      "common_gaps": [
+        {
+          "zh": "把客户抱怨直接当作已确认问题",
+          "en": "Treating a complaint as a confirmed problem without checking it"
+        },
+        {
+          "zh": "信息不足仍自动生成D0-D8结论",
+          "en": "Auto-generating D0-D8 conclusions despite insufficient information"
+        }
+      ],
+      "ai_can_do": [
+        {
+          "zh": "整理原始陈述、标记事实状态、提示是否满足启动信息条件",
+          "en": "Structure the initial statement, label information states, and indicate whether initiation information is adequate"
+        }
+      ],
+      "ai_must_not_do": [
+        {
+          "zh": "宣称D0来自VDA正式八个Discipline，或替用户决定N/A",
+          "en": "Claim that D0 is one of VDA's formal eight disciplines, or decide N/A for the user"
+        }
+      ],
+      "guide_questions": {
+        "zh": [
+          "观察到的具体偏差是什么，何时何地首次发现？",
+          "目前有哪些可核查事实，哪些仍只是用户陈述？",
+          "为什么该问题需要或不需要跨职能8D团队？"
+        ],
+        "en": [
+          "What exact deviation was observed, and when and where was it first found?",
+          "Which currently available items are checkable facts, and which are only user statements?",
+          "Why does this problem require, or not require, a cross-functional 8D team?"
+        ]
+      },
+      "rule_ids": [
+        "PR-D0-001",
+        "PR-D0-002",
+        "PR-D0-003"
+      ]
+    },
+    "D1": {
+      "title": {
+        "zh": "问题解决团队",
+        "en": "Problem Solving Team"
+      },
+      "purpose": {
+        "zh": "确定Sponsor、Team Leader及与问题复杂度和专业需求匹配的团队。",
+        "en": "Identify the sponsor, team leader, and a team matched to the problem's complexity and expertise needs."
+      },
+      "necessary_inputs": [
+        {
+          "zh": "原始症状、问题范围和复杂度",
+          "en": "Initial symptom, problem scope, and complexity"
+        },
+        {
+          "zh": "所需产品、过程、方法及实施权限",
+          "en": "Required product, process, method, and implementation authority"
+        }
+      ],
+      "check_conditions": [
+        {
+          "zh": "Sponsor与Team Leader是否明确",
+          "en": "Whether the sponsor and team leader are named"
+        },
+        {
+          "zh": "相关部门、专业能力、时间和权限是否覆盖",
+          "en": "Whether relevant functions, expertise, time, and authority are covered"
+        }
+      ],
+      "completion_conditions": [
+        {
+          "zh": "基础团队角色、相关部门、专业能力和8D方法能力均有明确记录",
+          "en": "Core team roles, relevant functions, technical expertise, and 8D-method competence are documented"
+        }
+      ],
+      "common_gaps": [
+        {
+          "zh": "Sponsor层级与问题规模不匹配",
+          "en": "Sponsor level does not match the problem magnitude"
+        },
+        {
+          "zh": "缺少关键职能、实施权限或沟通路径",
+          "en": "Missing key functions, implementation authority, or communication paths"
+        }
+      ],
+      "ai_can_do": [
+        {
+          "zh": "基于问题范围提示缺失职能、职责或能力",
+          "en": "Flag missing functions, responsibilities, or competencies based on the problem scope"
+        }
+      ],
+      "ai_must_not_do": [
+        {
+          "zh": "虚构团队成员、授权、资源或批准",
+          "en": "Invent team members, authority, resources, or approval"
+        }
+      ],
+      "guide_questions": {
+        "zh": [
+          "谁是Sponsor和Team Leader，他们各自拥有哪些资源与权限？",
+          "哪些产品、过程、客户、供应商或方法专家必须参与？",
+          "团队是否具备8D方法能力和明确沟通路径？"
+        ],
+        "en": [
+          "Who are the sponsor and team leader, and what resources and authority does each have?",
+          "Which product, process, customer, supplier, or method experts must participate?",
+          "Does the team have 8D-method competence and clear communication paths?"
+        ]
+      },
+      "rule_ids": [
+        "VDA-D1-B01",
+        "VDA-D1-B02",
+        "VDA-D1-B03",
+        "VDA-D1-E01",
+        "VDA-D1-M01"
+      ]
+    },
+    "D2": {
+      "title": {
+        "zh": "问题描述",
+        "en": "Problem Description"
+      },
+      "purpose": {
+        "zh": "将症状转化为具体、可量化、基于事实的对象与偏差描述。",
+        "en": "Convert the symptom into a specific, quantifiable, fact-based description of the item and deviation."
+      },
+      "necessary_inputs": [
+        {
+          "zh": "对象、要求/目标和实际结果",
+          "en": "Item, requirement/target, and actual result"
+        },
+        {
+          "zh": "What、Where、When、How much的IS与IS NOT事实",
+          "en": "IS and IS NOT facts for What, Where, When, and How much"
+        },
+        {
+          "zh": "相似产品、过程和地点的影响检查",
+          "en": "Impact check for similar products, processes, and locations"
+        }
+      ],
+      "check_conditions": [
+        {
+          "zh": "是否存在可测的目标-实际偏差",
+          "en": "Whether a measurable target-versus-actual deviation exists"
+        },
+        {
+          "zh": "事实收集是否避免原因推断",
+          "en": "Whether fact collection avoids causal conclusions"
+        }
+      ],
+      "completion_conditions": [
+        {
+          "zh": "问题描述清楚说明对象、偏差、地点、时间、数量/频次，并完成IS/IS NOT及相似范围检查",
+          "en": "The problem description clearly states item, deviation, location, timing, quantity/frequency, and includes IS/IS NOT plus similar-scope checks"
+        }
+      ],
+      "common_gaps": [
+        {
+          "zh": "缺少规格、目标值、数量、时间模式或不发生范围",
+          "en": "Missing specification, target, quantity, time pattern, or non-occurring scope"
+        },
+        {
+          "zh": "在D2中写入未经验证的原因",
+          "en": "Writing an unverified cause into D2"
+        }
+      ],
+      "ai_can_do": [
+        {
+          "zh": "整理IS/IS NOT、识别缺口并提出1-3个具体问题",
+          "en": "Structure IS/IS NOT, identify gaps, and ask 1-3 specific questions"
+        }
+      ],
+      "ai_must_not_do": [
+        {
+          "zh": "把症状、故障类别或猜测改写成根因",
+          "en": "Rewrite a symptom, failure category, or guess as a root cause"
+        }
+      ],
+      "guide_questions": {
+        "zh": [
+          "哪个产品或过程违反了哪一项明确要求，实际值是什么？",
+          "偏差在何处、何时、以多大数量或频次发生，又在哪些相似范围未发生？",
+          "哪些数据缺口会阻止形成可量化的问题描述？"
+        ],
+        "en": [
+          "Which product or process violated which explicit requirement, and what was the actual result?",
+          "Where, when, and in what quantity or frequency did the deviation occur, and in which similar scope did it not occur?",
+          "Which data gaps prevent a quantifiable problem description?"
+        ]
+      },
+      "rule_ids": [
+        "VDA-D2-B01",
+        "VDA-D2-B02",
+        "VDA-D2-B03",
+        "VDA-D2-E01",
+        "VDA-D2-M01",
+        "VDA-D2-M02"
+      ]
+    },
+    "D3": {
+      "title": {
+        "zh": "围堵措施",
+        "en": "Containment Actions"
+      },
+      "purpose": {
+        "zh": "在D6长期纠正措施有效性确认前，保护内外部客户免受问题影响。",
+        "en": "Protect internal and external customers from the problem until D6 long-term corrective actions are validated."
+      },
+      "necessary_inputs": [
+        {
+          "zh": "D2问题描述和影响范围",
+          "en": "D2 problem description and affected scope"
+        },
+        {
+          "zh": "供应链、库存、在制品、运输、客户和售后范围",
+          "en": "Supply-chain, stock, work-in-process, transit, customer, and service scope"
+        },
+        {
+          "zh": "风险评估及围堵有效性判据",
+          "en": "Risk assessment and containment effectiveness criteria"
+        }
+      ],
+      "check_conditions": [
+        {
+          "zh": "措施、责任人、计划/实际日期、证据、残余风险和副作用是否记录",
+          "en": "Whether action, owner, planned/actual dates, evidence, residual risk, and side effects are recorded"
+        },
+        {
+          "zh": "实施后有效性是否持续监控",
+          "en": "Whether post-implementation effectiveness is continuously monitored"
+        }
+      ],
+      "completion_conditions": [
+        {
+          "zh": "已实施必要围堵并有量化有效性证据；若不采取围堵，理由已记录",
+          "en": "Necessary containment is implemented with quantified effectiveness evidence; if none is used, the rationale is recorded"
+        }
+      ],
+      "common_gaps": [
+        {
+          "zh": "只描述筛选但没有覆盖点、数量、责任人或结果",
+          "en": "Describing sorting without control points, quantities, owners, or results"
+        },
+        {
+          "zh": "在D6有效性确认前解除围堵",
+          "en": "Removing containment before D6 effectiveness is confirmed"
+        }
+      ],
+      "ai_can_do": [
+        {
+          "zh": "检查覆盖范围、证据、持续监控和解除前提",
+          "en": "Check coverage, evidence, ongoing monitoring, and prerequisites for removal"
+        }
+      ],
+      "ai_must_not_do": [
+        {
+          "zh": "替用户确认客户已受保护或自动解除围堵",
+          "en": "Confirm customer protection for the user or automatically remove containment"
+        }
+      ],
+      "guide_questions": {
+        "zh": [
+          "围堵覆盖了供应商到客户及售后链条中的哪些位置和数量？",
+          "实施前后用什么数据证明围堵有效，残余风险是什么？",
+          "D6哪些有效性结果必须满足后才能解除围堵？"
+        ],
+        "en": [
+          "Which locations and quantities from supplier through customer and service are covered by containment?",
+          "What before/after data demonstrates containment effectiveness, and what residual risk remains?",
+          "Which D6 effectiveness results must be satisfied before containment can be removed?"
+        ]
+      },
+      "rule_ids": [
+        "VDA-D3-B01",
+        "VDA-D3-B02",
+        "VDA-D3-B03",
+        "VDA-D3-E01",
+        "VDA-D3-M01",
+        "VDA-D3-M02",
+        "PR-D3-001"
+      ]
+    },
+    "D4": {
+      "title": {
+        "zh": "根因分析",
+        "en": "Root Cause Analysis"
+      },
+      "purpose": {
+        "zh": "基于D2和D3事实识别并验证技术与系统层面的发生原因和未检出原因。",
+        "en": "Use D2 and D3 facts to identify and verify technical and systemic causes of occurrence and non-detection."
+      },
+      "cause_model": [
+        {
+          "cause_type": "TECHNICAL_OCCURRENCE_CAUSE",
+          "zh": "Technical Occurrence Cause：直接解释问题如何在产品或过程中发生。",
+          "en": "Technical Occurrence Cause: directly explains how the problem occurred in the product or process."
+        },
+        {
+          "cause_type": "SYSTEMIC_OCCURRENCE_CAUSE",
+          "zh": "Systemic Occurrence Cause：解释管理体系为何允许或未预防该技术发生原因。",
+          "en": "Systemic Occurrence Cause: explains why the management system allowed or failed to prevent the technical occurrence cause."
+        },
+        {
+          "cause_type": "TECHNICAL_NON_DETECTION_CAUSE",
+          "zh": "Technical Non-detection Cause：直接解释问题发生后为何未被现有探测或控制识别。",
+          "en": "Technical Non-detection Cause: directly explains why existing detection or controls did not identify the problem after it occurred."
+        },
+        {
+          "cause_type": "SYSTEMIC_NON_DETECTION_CAUSE",
+          "zh": "Systemic Non-detection Cause：解释管理体系为何允许或未预防该技术未检出原因。",
+          "en": "Systemic Non-detection Cause: explains why the management system allowed or failed to prevent the technical non-detection cause."
+        }
+      ],
+      "necessary_inputs": [
+        {
+          "zh": "经事实支持的D2问题描述和IS/IS NOT",
+          "en": "Fact-supported D2 problem description and IS/IS NOT"
+        },
+        {
+          "zh": "D3围堵中的发现、趋势和风险更新",
+          "en": "Findings, trends, and risk updates from D3 containment"
+        },
+        {
+          "zh": "潜在原因、最可能原因及验证计划/结果",
+          "en": "Potential causes, most likely causes, and verification plan/results"
+        }
+      ],
+      "check_conditions": [
+        {
+          "zh": "四类原因是否明确区分且逻辑相连",
+          "en": "Whether the four cause types are clearly separated and logically connected"
+        },
+        {
+          "zh": "根因是否与全部D2事实无矛盾并有验证证据",
+          "en": "Whether root causes are consistent with all D2 facts and supported by verification evidence"
+        }
+      ],
+      "completion_conditions": [
+        {
+          "zh": "发生和未检出两条路径的技术根因与系统根因均已识别、验证、分类，并更新风险评估",
+          "en": "Technical and systemic root causes for both occurrence and non-detection are identified, verified, categorized, and reflected in the updated risk assessment"
+        }
+      ],
+      "common_gaps": [
+        {
+          "zh": "把operator error、未培训或未遵守作终点，而不分析技术条件和体系允许原因",
+          "en": "Stopping at operator error, lack of training, or noncompliance without analyzing technical conditions and system allowance"
+        },
+        {
+          "zh": "只分析发生原因，不分析未检出原因",
+          "en": "Analyzing occurrence but not non-detection"
+        },
+        {
+          "zh": "用5 Why或Ishikawa图代替验证证据",
+          "en": "Treating a 5 Why or Ishikawa diagram as verification evidence"
+        }
+      ],
+      "ai_can_do": [
+        {
+          "zh": "分类假设、检查矛盾、建议验证方式并指出缺证据",
+          "en": "Classify hypotheses, check contradictions, suggest verification approaches, and flag missing evidence"
+        }
+      ],
+      "ai_must_not_do": [
+        {
+          "zh": "替用户确认根因，或把相关性、经验判断、operator error直接写成已验证根因",
+          "en": "Confirm a root cause for the user, or write correlation, expert judgment, or operator error as a verified root cause"
+        }
+      ],
+      "guide_questions": {
+        "zh": [
+          "什么技术条件直接导致发生，它与全部IS/IS NOT事实如何一致？",
+          "现有探测控制为何没有识别该问题，技术失效点在哪里？",
+          "管理体系为何允许发生与未检出技术原因存在，各自有哪些制度或过程缺口？"
+        ],
+        "en": [
+          "Which technical condition directly caused occurrence, and how is it consistent with every IS/IS NOT fact?",
+          "Why did existing detection controls fail to identify the problem, and where was the technical escape point?",
+          "Why did the management system allow the technical occurrence and non-detection causes, and what process or system gaps correspond to each?"
+        ]
+      },
+      "rule_ids": [
+        "VDA-D4-B01",
+        "VDA-D4-B02",
+        "VDA-D4-B03",
+        "VDA-D4-B04",
+        "VDA-D4-B05",
+        "VDA-D4-B06",
+        "VDA-D4-E01",
+        "VDA-D4-M01",
+        "VDA-D4-M02",
+        "PR-D4-001"
+      ]
+    },
+    "D5": {
+      "title": {
+        "zh": "选择并验证计划纠正措施",
+        "en": "Selection and Verification of Planned Corrective Actions"
+      },
+      "purpose": {
+        "zh": "针对D4每项根因开发、选择并在实施前验证计划措施，形成获批实施计划。",
+        "en": "Develop, select, and verify planned actions for every D4 root cause before implementation, producing an approved implementation plan."
+      },
+      "necessary_inputs": [
+        {
+          "zh": "D4四类已验证根因",
+          "en": "The four categories of verified D4 root causes"
+        },
+        {
+          "zh": "候选措施、有效性证据、效率和副作用风险",
+          "en": "Candidate actions, effectiveness evidence, efficiency, and side-effect risks"
+        },
+        {
+          "zh": "责任人、日期、资源及审批",
+          "en": "Owners, dates, resources, and approval"
+        }
+      ],
+      "check_conditions": [
+        {
+          "zh": "每项技术和系统根因是否至少有可追溯候选措施",
+          "en": "Whether every technical and systemic root cause has at least one traceable candidate action"
+        },
+        {
+          "zh": "选择理由、预实施验证和潜在副作用是否有记录",
+          "en": "Whether selection rationale, pre-implementation verification, and possible side effects are documented"
+        }
+      ],
+      "completion_conditions": [
+        {
+          "zh": "发生与未检出根因均有经验证选择的计划措施和获批的详细实施计划",
+          "en": "Occurrence and non-detection root causes have verified selected planned actions and an approved detailed implementation plan"
+        }
+      ],
+      "common_gaps": [
+        {
+          "zh": "措施与根因无明确关联",
+          "en": "No explicit link between actions and root causes"
+        },
+        {
+          "zh": "只有Training，未处理导致问题的技术或系统条件",
+          "en": "Training is the only action and the technical or systemic conditions remain unaddressed"
+        },
+        {
+          "zh": "把D5计划验证写成D6实施后有效性结果",
+          "en": "Presenting D5 plan verification as D6 post-implementation effectiveness"
+        }
+      ],
+      "ai_can_do": [
+        {
+          "zh": "建立根因-措施矩阵、比较选项并指出未覆盖根因",
+          "en": "Build a root-cause-to-action matrix, compare options, and flag uncovered causes"
+        }
+      ],
+      "ai_must_not_do": [
+        {
+          "zh": "把候选或计划措施写成已实施，或替用户批准资源和计划",
+          "en": "Write a candidate or planned action as implemented, or approve resources and plans for the user"
+        }
+      ],
+      "guide_questions": {
+        "zh": [
+          "每项已验证根因分别由哪项计划措施消除或控制？",
+          "实施前用什么试验或分析证明措施可能有效且无不可接受副作用？",
+          "获批计划中的责任人、日期、资源和变更沟通是什么？"
+        ],
+        "en": [
+          "Which planned action eliminates or controls each verified root cause?",
+          "What pre-implementation test or analysis shows the action can work without unacceptable side effects?",
+          "What are the owners, dates, resources, and change communication in the approved plan?"
+        ]
+      },
+      "rule_ids": [
+        "VDA-D5-B01",
+        "VDA-D5-B02",
+        "VDA-D5-B03",
+        "VDA-D5-B04",
+        "VDA-D5-E01",
+        "VDA-D5-M01",
+        "PR-D5-001"
+      ]
+    },
+    "D6": {
+      "title": {
+        "zh": "实施并验证纠正措施有效性",
+        "en": "Implementation and Validation of Corrective Actions"
+      },
+      "purpose": {
+        "zh": "按照D5计划实施长期措施，并用实际、持续结果验证有效性。",
+        "en": "Implement long-term actions according to the D5 plan and validate effectiveness using actual, sustained results."
+      },
+      "necessary_inputs": [
+        {
+          "zh": "D5获批措施计划和预定义验证判据",
+          "en": "Approved D5 action plan and predefined validation criteria"
+        },
+        {
+          "zh": "实际实施记录、日期、范围和变更",
+          "en": "Actual implementation records, dates, scope, and changes"
+        },
+        {
+          "zh": "实施后性能、缺陷、过程及副作用数据",
+          "en": "Post-implementation performance, defect, process, and side-effect data"
+        }
+      ],
+      "check_conditions": [
+        {
+          "zh": "实施是否与D5计划一致；偏差是否返回D5重新选择/验证",
+          "en": "Whether implementation matches D5; whether deviations were returned to D5 for renewed selection/verification"
+        },
+        {
+          "zh": "实际数据是否满足判据并覆盖足够时间/数量",
+          "en": "Whether actual data meets the criteria over an adequate time/quantity"
+        }
+      ],
+      "completion_conditions": [
+        {
+          "zh": "计划措施已实施且实际结果证明长期有效；此后才可记录围堵解除",
+          "en": "Planned actions are implemented and actual results demonstrate long-term effectiveness; only then may containment removal be recorded"
+        }
+      ],
+      "common_gaps": [
+        {
+          "zh": "只有完成日期或照片，没有有效性数据和判据",
+          "en": "Only a completion date or photo is supplied, without effectiveness data and criteria"
+        },
+        {
+          "zh": "把已实施等同于已验证",
+          "en": "Equating implemented with validated"
+        }
+      ],
+      "ai_can_do": [
+        {
+          "zh": "比较计划与实施、判据与结果，识别样本期、趋势或副作用证据缺口",
+          "en": "Compare plan versus implementation and criteria versus results, identifying gaps in sample period, trends, or side-effect evidence"
+        }
+      ],
+      "ai_must_not_do": [
+        {
+          "zh": "替用户确认措施有效、围堵解除或伪造实施后数据",
+          "en": "Confirm effectiveness or containment removal for the user, or fabricate post-implementation data"
+        }
+      ],
+      "guide_questions": {
+        "zh": [
+          "措施何时、在哪里、由谁按D5计划实际实施，有哪些偏差？",
+          "预定义有效性判据是什么，实际结果、观察期和样本量分别是多少？",
+          "发生和未检出风险是否都下降，是否出现副作用，何时满足围堵解除前提？"
+        ],
+        "en": [
+          "When, where, and by whom was the action actually implemented against the D5 plan, and what deviations occurred?",
+          "What were the predefined effectiveness criteria, and what actual results, observation period, and sample size were obtained?",
+          "Did both occurrence and non-detection risk decrease, were side effects observed, and when were containment-removal prerequisites met?"
+        ]
+      },
+      "rule_ids": [
+        "VDA-D6-B01",
+        "VDA-D6-B02",
+        "VDA-D6-B03",
+        "VDA-D6-E01",
+        "VDA-D6-M01",
+        "PR-D6-001"
+      ]
+    },
+    "D7": {
+      "title": {
+        "zh": "预防重复发生",
+        "en": "Prevention of Repeat Failure Occurrence"
+      },
+      "purpose": {
+        "zh": "将案例知识横向展开到相似产品、过程和地点，并更新可影响的相关文件与体系。",
+        "en": "Deploy case knowledge across similar products, processes, and locations, and update relevant documents and systems within influence."
+      },
+      "necessary_inputs": [
+        {
+          "zh": "D2问题、D4根因、D5/D6措施与验证结果",
+          "en": "D2 problem, D4 root causes, and D5/D6 actions and validation results"
+        },
+        {
+          "zh": "相似产品、过程、地点及接收责任人",
+          "en": "Similar products, processes, locations, and recipient owners"
+        },
+        {
+          "zh": "FMEA、控制计划、图纸、规格、作业/检验文件和Lessons Learned",
+          "en": "FMEA, control plan, drawings, specifications, work/test documents, and Lessons Learned"
+        }
+      ],
+      "check_conditions": [
+        {
+          "zh": "横向展开范围和适用性是否评估并留痕",
+          "en": "Whether deployment scope and applicability were assessed and recorded"
+        },
+        {
+          "zh": "相关文件是否复审、修订或对不更新给出理由",
+          "en": "Whether relevant documents were reviewed, revised, or supported by a rationale for no update"
+        }
+      ],
+      "completion_conditions": [
+        {
+          "zh": "横向展开与文件更新均可追溯；若无预防措施，理由已记录",
+          "en": "Horizontal deployment and document updates are traceable; if no preventive action is taken, the rationale is recorded"
+        }
+      ],
+      "common_gaps": [
+        {
+          "zh": "只写Lessons Learned，未识别接收方、适用范围或实际文件更新",
+          "en": "Writing only 'Lessons Learned' without recipients, applicability scope, or actual document updates"
+        },
+        {
+          "zh": "遗漏其他地点或相似产品/过程",
+          "en": "Omitting other locations or similar products/processes"
+        }
+      ],
+      "ai_can_do": [
+        {
+          "zh": "生成横向展开检查清单和文件更新矩阵，提示缺失接收方或证据",
+          "en": "Generate a horizontal-deployment checklist and document-update matrix, flagging missing recipients or evidence"
+        }
+      ],
+      "ai_must_not_do": [
+        {
+          "zh": "替接收方确认适用性，或声称文件已更新而无记录",
+          "en": "Confirm applicability for a recipient, or claim documents were updated without records"
+        }
+      ],
+      "guide_questions": {
+        "zh": [
+          "哪些相似产品、过程和地点可能共享同一根因或控制弱点？",
+          "FMEA、控制计划、图纸、规格、作业和检验文件分别复审或更新了什么？",
+          "信息交给了谁，接收方如何评估适用性并留下证据？"
+        ],
+        "en": [
+          "Which similar products, processes, and locations may share the same cause or control weakness?",
+          "What was reviewed or updated in the FMEA, control plan, drawings, specifications, work instructions, and test documents?",
+          "Who received the information, and how did the recipient assess applicability and retain evidence?"
+        ]
+      },
+      "rule_ids": [
+        "VDA-D7-B01",
+        "VDA-D7-B02",
+        "VDA-D7-B03",
+        "VDA-D7-E01",
+        "VDA-D7-M01",
+        "PR-D7-001"
+      ]
+    },
+    "D8": {
+      "title": {
+        "zh": "关闭与团队认可",
+        "en": "Closure and Appreciation of Team Success"
+      },
+      "purpose": {
+        "zh": "在D1-D7及所有问题相关措施完成后，由Sponsor与Team Leader批准关闭并认可团队。",
+        "en": "After D1-D7 and all problem-related actions are complete, close with sponsor and team-leader approval and recognize the team."
+      },
+      "necessary_inputs": [
+        {
+          "zh": "完整8D报告及相关证据",
+          "en": "Complete 8D report and associated evidence"
+        },
+        {
+          "zh": "D1-D7完成状态和所有问题相关措施清单",
+          "en": "D1-D7 completion status and list of all problem-related actions"
+        },
+        {
+          "zh": "Sponsor与Team Leader的可追溯批准",
+          "en": "Traceable sponsor and team-leader approval"
+        }
+      ],
+      "check_conditions": [
+        {
+          "zh": "是否仍有未完成、未验证或未移交的问题相关措施",
+          "en": "Whether any problem-related action remains incomplete, unvalidated, or not handed over"
+        },
+        {
+          "zh": "两项批准和团队认可/释放是否记录",
+          "en": "Whether both approvals and team recognition/release are recorded"
+        }
+      ],
+      "completion_conditions": [
+        {
+          "zh": "D1-D7和所有问题相关措施完成，报告可用，Sponsor与Team Leader均已记录批准，团队获认可并释放",
+          "en": "D1-D7 and all problem-related actions are complete, the report is available, sponsor and team leader approvals are recorded, and the team is recognized and released"
+        }
+      ],
+      "common_gaps": [
+        {
+          "zh": "D6缺验证、D7缺展开或仍有未完成措施时提前关闭",
+          "en": "Closing early while D6 lacks validation, D7 lacks deployment, or actions remain open"
+        },
+        {
+          "zh": "仅有单方批准或把系统Gate当作人工批准",
+          "en": "Only one approval is present, or a system gate is treated as human approval"
+        }
+      ],
+      "ai_can_do": [
+        {
+          "zh": "执行关闭前完整性检查并列出阻塞项",
+          "en": "Run a pre-closure completeness check and list blockers"
+        }
+      ],
+      "ai_must_not_do": [
+        {
+          "zh": "替Sponsor或Team Leader批准、确认D8关闭或自动填写N/A",
+          "en": "Approve for the sponsor or team leader, confirm D8 closure, or auto-fill N/A"
+        }
+      ],
+      "guide_questions": {
+        "zh": [
+          "D1-D7及所有问题相关措施是否均有完成和验证证据？",
+          "Sponsor与Team Leader分别在何时以何种记录批准？",
+          "团队认可、反馈和释放如何记录，是否仍有关闭阻塞项？"
+        ],
+        "en": [
+          "Do D1-D7 and all problem-related actions have completion and validation evidence?",
+          "When and in what record did the sponsor and team leader each approve?",
+          "How were team recognition, feedback, and release recorded, and do any closure blockers remain?"
+        ]
+      },
+      "rule_ids": [
+        "VDA-D8-B01",
+        "VDA-D8-B02",
+        "VDA-D8-B03",
+        "VDA-D8-E01",
+        "VDA-D8-M01",
+        "PR-D8-001"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "rule_id": "VDA-G-B01",
+      "source_type": "VDA_BASIC",
+      "chapter": "Introduction to problem solving in 8 disciplines, pp. 11-13",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "问题解决应以事实、原因和跨职能团队为导向。",
+        "en": "Problem solving is to be fact-oriented, cause-oriented, and team-oriented."
+      },
+      "check_condition": {
+        "zh": "结论是否由数据和事实支持，是否针对原因，是否使用所需跨职能能力。",
+        "en": "Check whether conclusions are supported by data and facts, address causes, and use the required cross-functional competence."
+      },
+      "blocking_condition": {
+        "zh": "关键结论仅由猜测支持，或复杂问题缺少必要跨职能能力。",
+        "en": "A key conclusion is supported only by conjecture, or a complex problem lacks necessary cross-functional competence."
+      },
+      "completion_condition": {
+        "zh": "基础记录清楚区分事实、原因分析和团队参与。",
+        "en": "The baseline record clearly shows facts, causal analysis, and team participation."
+      },
+      "ai_allowed": {
+        "zh": "标记事实与假设、指出能力缺口。",
+        "en": "Label facts and hypotheses and flag competence gaps."
+      },
+      "ai_forbidden": {
+        "zh": "用语言流畅度代替事实或团队判断。",
+        "en": "Substitute fluent wording for facts or team judgment."
+      }
+    },
+    {
+      "rule_id": "VDA-G-M01",
+      "source_type": "VDA_METHOD_GUIDANCE",
+      "chapter": "Introduction to problem solving in 8 disciplines - 8D process, pp. 12-13",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "D1-D8相互作用且可部分并行；机械地只按顺序填写不足以保证有效问题解决。",
+        "en": "D1-D8 interact and may partly run in parallel; mechanically filling them only in sequence is insufficient for effective problem solving."
+      },
+      "check_condition": {
+        "zh": "新事实是否触发前序步骤更新，相关步骤是否保持一致。",
+        "en": "Check whether new facts trigger upstream updates and related steps remain consistent."
+      },
+      "blocking_condition": {
+        "zh": "后续结论与已更新的D2、D3或D4不一致且未重新评估。",
+        "en": "A downstream conclusion conflicts with updated D2, D3, or D4 and has not been reassessed."
+      },
+      "completion_condition": {
+        "zh": "作为一致性建议报告，不单独作为基础Gate。",
+        "en": "Report as consistency guidance, not as a standalone baseline gate."
+      },
+      "ai_allowed": {
+        "zh": "提示需要回到相关步骤复核。",
+        "en": "Suggest returning to relevant steps for review."
+      },
+      "ai_forbidden": {
+        "zh": "因步骤编号靠后就假定前序内容正确。",
+        "en": "Assume upstream content is correct merely because a later step is populated."
+      }
+    },
+    {
+      "rule_id": "VDA-G-B02",
+      "source_type": "VDA_BASIC",
+      "chapter": "General Basic requirements, p. 16",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "8D报告应遵守版本编号。",
+        "en": "The 8D report is to follow version numbering."
+      },
+      "check_condition": {
+        "zh": "当前版本和前一版本是否可识别。",
+        "en": "Check whether the current and preceding versions are identifiable."
+      },
+      "blocking_condition": {
+        "zh": "报告内容已变更但版本无法识别。",
+        "en": "Report content changed but the version cannot be identified."
+      },
+      "completion_condition": {
+        "zh": "当前版本编号存在且可追溯。",
+        "en": "A current, traceable version number exists."
+      },
+      "ai_allowed": {
+        "zh": "提示版本缺失或不一致。",
+        "en": "Flag a missing or inconsistent version."
+      },
+      "ai_forbidden": {
+        "zh": "虚构版本批准或变更记录。",
+        "en": "Invent version approval or change history."
+      }
+    },
+    {
+      "rule_id": "VDA-G-B03",
+      "source_type": "VDA_BASIC",
+      "chapter": "General Basic requirements, pp. 16-17",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "措施日期应保持最新。",
+        "en": "Action dates are to be kept current."
+      },
+      "check_condition": {
+        "zh": "计划与实际日期、逾期状态和更新日期是否一致。",
+        "en": "Check consistency of planned dates, actual dates, overdue status, and update date."
+      },
+      "blocking_condition": {
+        "zh": "关键措施日期缺失、过期或与状态矛盾。",
+        "en": "A key action date is missing, stale, or inconsistent with its status."
+      },
+      "completion_condition": {
+        "zh": "所有基础所需措施均有当前日期状态。",
+        "en": "All baseline-required actions have current date status."
+      },
+      "ai_allowed": {
+        "zh": "识别日期矛盾或过期项。",
+        "en": "Identify date conflicts or stale items."
+      },
+      "ai_forbidden": {
+        "zh": "猜测实际完成日期。",
+        "en": "Guess actual completion dates."
+      }
+    },
+    {
+      "rule_id": "VDA-G-E01",
+      "source_type": "VDA_EXCELLENCE",
+      "chapter": "General Criteria for achieving excellent, p. 17",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "优秀报告应客观、完整、简洁、一致、易理解，并可含管理摘要、清晰格式且按时完成。",
+        "en": "An excellent report is objective, complete, concise, consistent, understandable, may include a management summary, is well organized, and meets timing."
+      },
+      "check_condition": {
+        "zh": "优秀项是否满足且可由第三方理解。",
+        "en": "Check whether excellence attributes are met and understandable to a third party."
+      },
+      "blocking_condition": {
+        "zh": "无；该项不得阻塞基础完成。",
+        "en": "None; this item must not block baseline completion."
+      },
+      "completion_condition": {
+        "zh": "仅记录为Excellence达成或改进建议，不并入基础完成条件。",
+        "en": "Record only as excellence achieved or improvement guidance; do not merge it into baseline completion."
+      },
+      "ai_allowed": {
+        "zh": "单独给出优秀度建议。",
+        "en": "Provide separate excellence suggestions."
+      },
+      "ai_forbidden": {
+        "zh": "因缺少管理摘要或格式不够优秀而判定基础失败。",
+        "en": "Fail baseline completion because a management summary is absent or formatting is not excellent."
+      }
+    },
+    {
+      "rule_id": "PR-G-001",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product AI policy - information-state integrity (not a VDA source)",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "回复必须区分事实、用户陈述、假设、已验证根因、缺失信息、缺失证据、建议、计划措施、已实施措施和已验证结果。",
+        "en": "Responses must distinguish facts, user statements, hypotheses, verified root causes, missing information, missing evidence, recommendations, planned actions, implemented actions, and validated results."
+      },
+      "check_condition": {
+        "zh": "每项关键陈述是否具有明确状态且状态与证据一致。",
+        "en": "Check whether each key statement has an explicit state consistent with its evidence."
+      },
+      "blocking_condition": {
+        "zh": "假设被写成事实、计划被写成实施、实施被写成已验证。",
+        "en": "A hypothesis is written as fact, a plan as implemented, or implementation as validated."
+      },
+      "completion_condition": {
+        "zh": "关键陈述已正确标注状态。",
+        "en": "Key statements are correctly state-labeled."
+      },
+      "ai_allowed": {
+        "zh": "对用户原话进行状态标注并说明证据缺口。",
+        "en": "Label the state of user-provided content and explain evidence gaps."
+      },
+      "ai_forbidden": {
+        "zh": "为提高完整度而升级信息状态。",
+        "en": "Upgrade information state merely to make the report appear complete."
+      }
+    },
+    {
+      "rule_id": "PR-G-002",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product AI policy - missing-information response (not a VDA source)",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "信息不足时应指出缺口，并提出1-3个最具体、最能推进当前步骤的问题。",
+        "en": "When information is insufficient, identify the gaps and ask 1-3 specific questions that most directly advance the current step."
+      },
+      "check_condition": {
+        "zh": "问题是否对应明确缺口且数量不超过3个。",
+        "en": "Check whether questions map to explicit gaps and number no more than three."
+      },
+      "blocking_condition": {
+        "zh": "信息不足却给出确定性结论。",
+        "en": "A definitive conclusion is given despite insufficient information."
+      },
+      "completion_condition": {
+        "zh": "缺口与1-3个具体问题已给出，或信息已足够。",
+        "en": "Gaps and 1-3 specific questions are provided, or the information is adequate."
+      },
+      "ai_allowed": {
+        "zh": "按影响和可获取性优先排序追问。",
+        "en": "Prioritize questions by impact and obtainability."
+      },
+      "ai_forbidden": {
+        "zh": "用大段通用问卷代替针对性追问。",
+        "en": "Replace targeted follow-up with a long generic questionnaire."
+      }
+    },
+    {
+      "rule_id": "PR-G-003",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product AI policy - no fabrication (not a VDA source)",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "不得虚构事实、数据、规格、证据、批准或验证结果。",
+        "en": "Facts, data, specifications, evidence, approvals, and validation results must not be fabricated."
+      },
+      "check_condition": {
+        "zh": "输出中的具体值和结论是否可追溯到用户输入或明确来源。",
+        "en": "Check whether specific values and conclusions trace to user input or an explicit source."
+      },
+      "blocking_condition": {
+        "zh": "任何关键事实或证据无法追溯且未标为假设/示例。",
+        "en": "Any key fact or evidence is untraceable and not labeled as a hypothesis/example."
+      },
+      "completion_condition": {
+        "zh": "所有具体事实均可追溯，未知项保持未知。",
+        "en": "All specific facts are traceable and unknowns remain unknown."
+      },
+      "ai_allowed": {
+        "zh": "提供明确标注的示例格式或建议。",
+        "en": "Provide clearly labeled examples or recommendations."
+      },
+      "ai_forbidden": {
+        "zh": "按用户要求编造看似合理的数据。",
+        "en": "Invent plausible-looking data even when requested."
+      }
+    },
+    {
+      "rule_id": "PR-G-004",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product AI policy - decision authority (not a VDA source)",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "AI不得替用户确认根因、措施有效性、围堵解除、N/A或D8关闭。",
+        "en": "The AI must not confirm root cause, action effectiveness, containment removal, N/A, or D8 closure for the user."
+      },
+      "check_condition": {
+        "zh": "任何决定性状态是否有授权人员和证据。",
+        "en": "Check whether every decision state has an authorized human and evidence."
+      },
+      "blocking_condition": {
+        "zh": "只有AI判断，没有授权人员确认。",
+        "en": "Only an AI judgment exists without authorized human confirmation."
+      },
+      "completion_condition": {
+        "zh": "AI只给出检查结果，最终决定保留给授权人员。",
+        "en": "The AI provides only check results; final decisions remain with authorized people."
+      },
+      "ai_allowed": {
+        "zh": "给出“满足/不满足/待确认”的证据化建议状态。",
+        "en": "Give an evidence-based advisory status of met/not met/pending confirmation."
+      },
+      "ai_forbidden": {
+        "zh": "模拟签名、批准或最终关闭。",
+        "en": "Simulate signatures, approval, or final closure."
+      }
+    },
+    {
+      "rule_id": "PR-G-005",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product AI policy - scope and claims (not a VDA source)",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "不得根据模糊描述自动补齐完整D0-D8，也不得声称获得VDA认证或完全符合VDA。",
+        "en": "A complete D0-D8 must not be auto-filled from a vague description, and the assistant must not claim VDA certification or full VDA compliance."
+      },
+      "check_condition": {
+        "zh": "输出是否限定为辅助检查并保留人工复核。",
+        "en": "Check whether output is framed as assisted review with human verification retained."
+      },
+      "blocking_condition": {
+        "zh": "输出包含认证、完全符合或无条件完整报告声明。",
+        "en": "Output contains a certification, full-compliance, or unconditional complete-report claim."
+      },
+      "completion_condition": {
+        "zh": "范围与限制清楚表述。",
+        "en": "Scope and limitations are stated clearly."
+      },
+      "ai_allowed": {
+        "zh": "说明规则包与人工判断的边界。",
+        "en": "Explain the boundary between the rule package and human judgment."
+      },
+      "ai_forbidden": {
+        "zh": "将规则检查结果包装为认证结论。",
+        "en": "Present a rule-check result as a certification conclusion."
+      }
+    },
+    {
+      "rule_id": "PEC-G-REVISION",
+      "source_type": "PRODUCT_ENGINEERING_CONTROL",
+      "chapter": "Product engineering control - Revision (not a VDA source; supports General Basic requirements)",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "每次影响判断的数据变更应生成单调递增Revision并记录变更者、时间和范围。",
+        "en": "Each data change affecting a decision is to create a monotonically increasing revision with actor, time, and scope."
+      },
+      "check_condition": {
+        "zh": "当前判断是否绑定当前Revision。",
+        "en": "Check whether the current decision is bound to the current revision."
+      },
+      "blocking_condition": {
+        "zh": "判断引用未知或旧Revision。",
+        "en": "A decision refers to an unknown or old revision."
+      },
+      "completion_condition": {
+        "zh": "Revision与变更记录可追溯。",
+        "en": "Revision and change record are traceable."
+      },
+      "ai_allowed": {
+        "zh": "提示Revision不一致。",
+        "en": "Flag revision inconsistency."
+      },
+      "ai_forbidden": {
+        "zh": "篡改历史Revision。",
+        "en": "Rewrite historical revisions."
+      }
+    },
+    {
+      "rule_id": "PEC-G-FINGERPRINT",
+      "source_type": "PRODUCT_ENGINEERING_CONTROL",
+      "chapter": "Product engineering control - Fingerprint (not a VDA source)",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "关键Gate判断应绑定规范化输入和证据集合的Fingerprint。",
+        "en": "A critical gate decision is to be bound to a fingerprint of normalized inputs and the evidence set."
+      },
+      "check_condition": {
+        "zh": "当前输入Fingerprint是否与判断时一致。",
+        "en": "Check whether the current input fingerprint matches the one used for the decision."
+      },
+      "blocking_condition": {
+        "zh": "Fingerprint不匹配或缺失。",
+        "en": "The fingerprint is missing or mismatched."
+      },
+      "completion_condition": {
+        "zh": "判断、证据和Fingerprint可关联。",
+        "en": "Decision, evidence, and fingerprint are linked."
+      },
+      "ai_allowed": {
+        "zh": "指出需要重新评估。",
+        "en": "Indicate that reassessment is needed."
+      },
+      "ai_forbidden": {
+        "zh": "自行生成证据内容以匹配Fingerprint。",
+        "en": "Generate evidence content to force a fingerprint match."
+      }
+    },
+    {
+      "rule_id": "PEC-G-STALE",
+      "source_type": "PRODUCT_ENGINEERING_CONTROL",
+      "chapter": "Product engineering control - Stale (not a VDA source)",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "支撑判断的输入、证据或上游步骤变化后，下游判断应标记Stale并重新评估。",
+        "en": "When supporting input, evidence, or an upstream step changes, downstream decisions are to be marked stale and reassessed."
+      },
+      "check_condition": {
+        "zh": "D2-D8依赖链中是否存在判断后变更。",
+        "en": "Check for post-decision changes in the D2-D8 dependency chain."
+      },
+      "blocking_condition": {
+        "zh": "Stale判断仍被用作通过依据。",
+        "en": "A stale decision is still used as passing evidence."
+      },
+      "completion_condition": {
+        "zh": "所有Stale项已重新评估或保持阻塞。",
+        "en": "All stale items are reassessed or remain blocked."
+      },
+      "ai_allowed": {
+        "zh": "传播Stale提示并列出受影响步骤。",
+        "en": "Propagate stale warnings and list affected steps."
+      },
+      "ai_forbidden": {
+        "zh": "在未复核时自动恢复为有效。",
+        "en": "Automatically restore validity without review."
+      }
+    },
+    {
+      "rule_id": "PEC-G-GATE",
+      "source_type": "PRODUCT_ENGINEERING_CONTROL",
+      "chapter": "Product engineering control - Gate (not a VDA source)",
+      "step": "GLOBAL",
+      "requirement": {
+        "zh": "Gate只汇总已编码规则的通过、阻塞和待人工确认状态，不取代Sponsor、Team Leader或技术负责人的决定。",
+        "en": "A gate only summarizes pass, block, and pending-human-confirmation states from encoded rules; it does not replace decisions by the sponsor, team leader, or technical authority."
+      },
+      "check_condition": {
+        "zh": "Gate依据、规则版本、输入Revision和人工确认是否可追溯。",
+        "en": "Check traceability of gate basis, rule version, input revision, and human confirmation."
+      },
+      "blocking_condition": {
+        "zh": "存在基础规则阻塞、Stale状态或必需人工确认缺失。",
+        "en": "A baseline-rule blocker, stale state, or missing required human confirmation exists."
+      },
+      "completion_condition": {
+        "zh": "Gate状态与基础规则及人工确认一致。",
+        "en": "Gate status is consistent with baseline rules and human confirmations."
+      },
+      "ai_allowed": {
+        "zh": "解释Gate阻塞原因。",
+        "en": "Explain gate blockers."
+      },
+      "ai_forbidden": {
+        "zh": "绕过阻塞或代替人工批准。",
+        "en": "Bypass a blocker or substitute for human approval."
+      }
+    },
+    {
+      "rule_id": "PR-D0-001",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product workflow - D0 status (not a VDA discipline); related VDA context: Introduction, p. 11",
+      "step": "D0",
+      "requirement": {
+        "zh": "D0必须显示为产品启动步骤，不得标为VDA 2018正式Discipline。",
+        "en": "D0 must be displayed as a product initiation step and not as a formal VDA 2018 discipline."
+      },
+      "check_condition": {
+        "zh": "标签、提示和导出是否明确D0来源类型。",
+        "en": "Check whether labels, prompts, and exports identify D0's source type."
+      },
+      "blocking_condition": {
+        "zh": "D0被呈现为VDA基本要求或正式Discipline。",
+        "en": "D0 is represented as a VDA basic requirement or formal discipline."
+      },
+      "completion_condition": {
+        "zh": "D0清楚标为PRODUCT_RULE。",
+        "en": "D0 is clearly marked PRODUCT_RULE."
+      },
+      "ai_allowed": {
+        "zh": "解释D0与D1-D8边界。",
+        "en": "Explain the boundary between D0 and D1-D8."
+      },
+      "ai_forbidden": {
+        "zh": "为D0虚构VDA章节。",
+        "en": "Invent a VDA chapter for D0."
+      }
+    },
+    {
+      "rule_id": "PR-D0-002",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product workflow - initiation decision; informed by VDA Decision-making criteria to apply 8D method, p. 15",
+      "step": "D0",
+      "requirement": {
+        "zh": "启动判断记录偏差是否清楚完整，以及是否超出单人解决能力。",
+        "en": "The initiation decision records whether the deviation is clear and complete and whether solving it exceeds one person's capability."
+      },
+      "check_condition": {
+        "zh": "两项判断及其依据是否存在。",
+        "en": "Check whether both determinations and their rationale exist."
+      },
+      "blocking_condition": {
+        "zh": "缺少清楚偏差描述却启动完整8D结论生成。",
+        "en": "A complete 8D conclusion is initiated without a clear deviation description."
+      },
+      "completion_condition": {
+        "zh": "启动/不启动理由与责任人已记录。",
+        "en": "Start/do-not-start rationale and owner are recorded."
+      },
+      "ai_allowed": {
+        "zh": "给出适用性提示。",
+        "en": "Provide an applicability indication."
+      },
+      "ai_forbidden": {
+        "zh": "以AI提示替代组织决定。",
+        "en": "Replace the organization's decision with an AI indication."
+      }
+    },
+    {
+      "rule_id": "PR-D0-003",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product workflow - urgent risk triage (not a VDA discipline)",
+      "step": "D0",
+      "requirement": {
+        "zh": "若存在潜在安全、法规、客户或重大业务风险，应立即提示升级和D3保护需求，不等待完整分析。",
+        "en": "If potential safety, regulatory, customer, or major business risk exists, prompt immediate escalation and D3 protection needs without waiting for full analysis."
+      },
+      "check_condition": {
+        "zh": "紧急风险是否被识别并分配人工责任人。",
+        "en": "Check whether urgent risk is identified and assigned to a human owner."
+      },
+      "blocking_condition": {
+        "zh": "高风险信号存在但没有升级或保护决策。",
+        "en": "A high-risk signal exists without escalation or a protection decision."
+      },
+      "completion_condition": {
+        "zh": "风险状态、升级路径和责任人已记录。",
+        "en": "Risk status, escalation path, and owner are recorded."
+      },
+      "ai_allowed": {
+        "zh": "提示立即人工评估。",
+        "en": "Prompt immediate human assessment."
+      },
+      "ai_forbidden": {
+        "zh": "自行判定产品安全或法规合规。",
+        "en": "Independently determine product safety or regulatory compliance."
+      }
+    },
+    {
+      "rule_id": "VDA-D1-B01",
+      "source_type": "VDA_BASIC",
+      "chapter": "1.4.1 D1 - Basic requirements, p. 20",
+      "step": "D1",
+      "requirement": {
+        "zh": "必须任命Team Leader和Sponsor。",
+        "en": "A team leader and sponsor must be appointed."
+      },
+      "check_condition": {
+        "zh": "两项角色是否由可识别人员承担。",
+        "en": "Check whether both roles are assigned to identifiable people."
+      },
+      "blocking_condition": {
+        "zh": "任一角色缺失。",
+        "en": "Either role is missing."
+      },
+      "completion_condition": {
+        "zh": "两项角色均已记录。",
+        "en": "Both roles are recorded."
+      },
+      "ai_allowed": {
+        "zh": "提示缺失角色。",
+        "en": "Flag a missing role."
+      },
+      "ai_forbidden": {
+        "zh": "自行任命或模拟接受任命。",
+        "en": "Appoint someone or simulate acceptance."
+      }
+    },
+    {
+      "rule_id": "VDA-D1-B02",
+      "source_type": "VDA_BASIC",
+      "chapter": "1.2 Process and 1.4.1 Basic requirements, pp. 18-20",
+      "step": "D1",
+      "requirement": {
+        "zh": "相关部门应有代表，且团队具备解决产品/过程问题所需专业能力、时间和权限。",
+        "en": "Relevant functions are to be represented, and the team is to have the expertise, time, and authority needed to solve the product/process problem."
+      },
+      "check_condition": {
+        "zh": "问题范围是否映射到所需职能和能力。",
+        "en": "Check whether problem scope maps to required functions and competencies."
+      },
+      "blocking_condition": {
+        "zh": "关键专业领域无人覆盖或无实施权限。",
+        "en": "A key expertise area is uncovered or implementation authority is absent."
+      },
+      "completion_condition": {
+        "zh": "职能、专业能力和权限覆盖可追溯。",
+        "en": "Function, expertise, and authority coverage is traceable."
+      },
+      "ai_allowed": {
+        "zh": "建议需要的角色类型。",
+        "en": "Suggest types of roles needed."
+      },
+      "ai_forbidden": {
+        "zh": "声称某人具备未经记录的能力或权限。",
+        "en": "Claim undocumented competence or authority for a person."
+      }
+    },
+    {
+      "rule_id": "VDA-D1-B03",
+      "source_type": "VDA_BASIC",
+      "chapter": "1.2 Process and 1.4.1 Basic requirements, pp. 19-20",
+      "step": "D1",
+      "requirement": {
+        "zh": "Sponsor层级应与问题规模相称，团队应具备8D方法能力。",
+        "en": "The sponsor's hierarchy level is to match the problem magnitude, and 8D-method competence is to be available."
+      },
+      "check_condition": {
+        "zh": "Sponsor能否提供资源/移除障碍，团队是否有人掌握8D方法。",
+        "en": "Check whether the sponsor can provide resources/remove barriers and someone on the team knows the 8D method."
+      },
+      "blocking_condition": {
+        "zh": "Sponsor无法支撑问题规模，或团队无8D方法能力。",
+        "en": "The sponsor cannot support the problem magnitude, or the team lacks 8D-method competence."
+      },
+      "completion_condition": {
+        "zh": "层级匹配和方法能力均有依据。",
+        "en": "Hierarchy fit and method competence are evidenced."
+      },
+      "ai_allowed": {
+        "zh": "指出角色与问题规模不匹配。",
+        "en": "Flag a mismatch between role and problem magnitude."
+      },
+      "ai_forbidden": {
+        "zh": "替Sponsor承诺资源。",
+        "en": "Commit resources on behalf of the sponsor."
+      }
+    },
+    {
+      "rule_id": "VDA-D1-E01",
+      "source_type": "VDA_EXCELLENCE",
+      "chapter": "1.4.2 D1 - Criteria for reaching excellent, p. 20",
+      "step": "D1",
+      "requirement": {
+        "zh": "优秀实践包括清楚的职能/部门、跨职能团队、8D Moderator及独立Fresh-eyes Reviewer。",
+        "en": "Excellent practice includes clear function/department identification, a multidisciplinary team, an 8D moderator, and an independent fresh-eyes reviewer."
+      },
+      "check_condition": {
+        "zh": "优秀角色和描述是否存在。",
+        "en": "Check whether excellence roles and descriptions exist."
+      },
+      "blocking_condition": {
+        "zh": "无；不得阻塞D1基础完成。",
+        "en": "None; this must not block D1 baseline completion."
+      },
+      "completion_condition": {
+        "zh": "单独记录Excellence状态。",
+        "en": "Record excellence status separately."
+      },
+      "ai_allowed": {
+        "zh": "建议Moderator或Fresh-eyes Review。",
+        "en": "Suggest a moderator or fresh-eyes review."
+      },
+      "ai_forbidden": {
+        "zh": "把缺少Reviewer判为基础失败。",
+        "en": "Treat a missing reviewer as baseline failure."
+      }
+    },
+    {
+      "rule_id": "VDA-D1-M01",
+      "source_type": "VDA_METHOD_GUIDANCE",
+      "chapter": "1.2-1.3 D1 Process, applicable methods and tools, pp. 18-19",
+      "step": "D1",
+      "requirement": {
+        "zh": "可使用责任矩阵、组织图和培训矩阵，并随新事实调整团队组成与沟通路径。",
+        "en": "A responsibility matrix, organization chart, and training matrix may be used, with team composition and communication paths adjusted as new facts emerge."
+      },
+      "check_condition": {
+        "zh": "方法是否与团队规模和问题复杂度相称。",
+        "en": "Check whether the method fits team size and problem complexity."
+      },
+      "blocking_condition": {
+        "zh": "无；除非组织规定为必需。",
+        "en": "None, unless required by the organization."
+      },
+      "completion_condition": {
+        "zh": "作为方法建议，不单独构成D1 Gate。",
+        "en": "Treat as method guidance, not a standalone D1 gate."
+      },
+      "ai_allowed": {
+        "zh": "生成待人工确认的职责矩阵草案。",
+        "en": "Draft a responsibility matrix for human confirmation."
+      },
+      "ai_forbidden": {
+        "zh": "把建议工具说成VDA强制表单。",
+        "en": "Describe a suggested tool as a mandatory VDA form."
+      }
+    },
+    {
+      "rule_id": "VDA-D2-B01",
+      "source_type": "VDA_BASIC",
+      "chapter": "2.1-2.2 and 2.4.1 D2, pp. 22-26",
+      "step": "D2",
+      "requirement": {
+        "zh": "问题描述应清楚说明对象及目标-实际偏差。",
+        "en": "The problem description is to clearly identify the item and target-versus-actual deviation."
+      },
+      "check_condition": {
+        "zh": "对象、要求/目标、实际结果和可测偏差是否存在。",
+        "en": "Check for item, requirement/target, actual result, and measurable deviation."
+      },
+      "blocking_condition": {
+        "zh": "只描述症状或情绪，没有明确要求与实际偏差。",
+        "en": "Only a symptom or concern is described, without a clear requirement and actual deviation."
+      },
+      "completion_condition": {
+        "zh": "对象和可测偏差均明确。",
+        "en": "The item and measurable deviation are clear."
+      },
+      "ai_allowed": {
+        "zh": "将用户信息整理为对象-要求-实际结构。",
+        "en": "Structure user information as item-requirement-actual."
+      },
+      "ai_forbidden": {
+        "zh": "虚构规格或目标。",
+        "en": "Invent a specification or target."
+      }
+    },
+    {
+      "rule_id": "VDA-D2-B02",
+      "source_type": "VDA_BASIC",
+      "chapter": "2.2 and 2.4.1 D2, pp. 23-26",
+      "step": "D2",
+      "requirement": {
+        "zh": "问题描述应以数字、数据和事实说明What、Where、When和How much。",
+        "en": "The problem description is to use figures, data, and facts to cover What, Where, When, and How much."
+      },
+      "check_condition": {
+        "zh": "四个维度是否有具体、可追溯信息。",
+        "en": "Check whether all four dimensions have specific, traceable information."
+      },
+      "blocking_condition": {
+        "zh": "关键维度缺失到无法理解问题范围。",
+        "en": "A key dimension is missing such that problem scope cannot be understood."
+      },
+      "completion_condition": {
+        "zh": "四个维度完整到足以支持D3和D4。",
+        "en": "The four dimensions are complete enough to support D3 and D4."
+      },
+      "ai_allowed": {
+        "zh": "识别缺失维度并追问。",
+        "en": "Identify missing dimensions and ask follow-up questions."
+      },
+      "ai_forbidden": {
+        "zh": "用“多次”“近期”等模糊词替代数据。",
+        "en": "Substitute vague terms such as 'several' or 'recently' for data."
+      }
+    },
+    {
+      "rule_id": "VDA-D2-B03",
+      "source_type": "VDA_BASIC",
+      "chapter": "2.2 and 2.4.1 D2, pp. 23-26",
+      "step": "D2",
+      "requirement": {
+        "zh": "应完成IS/IS NOT，并检查相似产品、过程和地点的潜在影响。",
+        "en": "IS/IS NOT is to be completed, and potential effects on similar products, processes, and locations are to be checked."
+      },
+      "check_condition": {
+        "zh": "IS NOT及相似范围检查是否有事实或明确待办。",
+        "en": "Check whether IS NOT and similar-scope checks have facts or explicit open actions."
+      },
+      "blocking_condition": {
+        "zh": "没有IS NOT或相似范围检查。",
+        "en": "IS NOT or similar-scope checks are absent."
+      },
+      "completion_condition": {
+        "zh": "IS/IS NOT及相似范围检查已记录。",
+        "en": "IS/IS NOT and similar-scope checks are recorded."
+      },
+      "ai_allowed": {
+        "zh": "生成IS/IS NOT表格草案。",
+        "en": "Draft an IS/IS NOT table."
+      },
+      "ai_forbidden": {
+        "zh": "自动认定未提供范围为IS NOT。",
+        "en": "Assume an unreported scope is IS NOT."
+      }
+    },
+    {
+      "rule_id": "VDA-D2-E01",
+      "source_type": "VDA_EXCELLENCE",
+      "chapter": "2.4.2 D2 - Criteria for reaching excellent, p. 26",
+      "step": "D2",
+      "requirement": {
+        "zh": "优秀问题描述可附图像、音频或视频，并用其他方法支持IS/IS NOT。",
+        "en": "An excellent problem description may attach images, audio, or video and support IS/IS NOT with additional methods."
+      },
+      "check_condition": {
+        "zh": "附加媒体和方法是否提升第三方理解。",
+        "en": "Check whether additional media and methods improve third-party understanding."
+      },
+      "blocking_condition": {
+        "zh": "无；不得阻塞D2基础完成。",
+        "en": "None; this must not block D2 baseline completion."
+      },
+      "completion_condition": {
+        "zh": "仅单独记录Excellence状态。",
+        "en": "Record only a separate excellence status."
+      },
+      "ai_allowed": {
+        "zh": "建议最有价值的补充媒体。",
+        "en": "Suggest the most useful additional media."
+      },
+      "ai_forbidden": {
+        "zh": "因没有图片或视频而判D2基础失败。",
+        "en": "Fail D2 baseline because images or video are absent."
+      }
+    },
+    {
+      "rule_id": "VDA-D2-M01",
+      "source_type": "VDA_METHOD_GUIDANCE",
+      "chapter": "2.2 D2 Process, pp. 23-25",
+      "step": "D2",
+      "requirement": {
+        "zh": "D2事实收集不得询问“为什么”或包含原因结论；复杂症状可拆成多个问题描述。",
+        "en": "D2 fact collection is not to ask 'why' or contain causal conclusions; complex symptoms may be split into multiple problem descriptions."
+      },
+      "check_condition": {
+        "zh": "D2是否混入未经验证的原因，复杂症状是否需要拆分。",
+        "en": "Check whether D2 contains unverified causes and whether complex symptoms need separation."
+      },
+      "blocking_condition": {
+        "zh": "原因假设污染事实描述，导致范围或偏差不清。",
+        "en": "A causal hypothesis contaminates the factual description and obscures scope or deviation."
+      },
+      "completion_condition": {
+        "zh": "事实与原因假设分离；拆分作为适用时的建议。",
+        "en": "Facts are separated from causal hypotheses; splitting remains guidance when applicable."
+      },
+      "ai_allowed": {
+        "zh": "把原因语句移到D4假设区并保留原意。",
+        "en": "Move causal statements to the D4 hypothesis area while preserving meaning."
+      },
+      "ai_forbidden": {
+        "zh": "在D2内验证根因。",
+        "en": "Validate a root cause within D2."
+      }
+    },
+    {
+      "rule_id": "VDA-D2-M02",
+      "source_type": "VDA_METHOD_GUIDANCE",
+      "chapter": "2.3 D2 - Applicable methods and tools, p. 25",
+      "step": "D2",
+      "requirement": {
+        "zh": "可使用IS/IS NOT、直方图、故障统计、Paynter、Pareto、流程图、待办清单和ABC分析补充事实收集。",
+        "en": "IS/IS NOT, histograms, failure tallies, Paynter charts, Pareto analysis, flowcharts, open-action lists, and ABC analysis may support fact collection."
+      },
+      "check_condition": {
+        "zh": "所选方法是否回答具体信息缺口。",
+        "en": "Check whether the selected method addresses a specific information gap."
+      },
+      "blocking_condition": {
+        "zh": "无；工具本身不是基础完成条件。",
+        "en": "None; the tool itself is not a baseline completion condition."
+      },
+      "completion_condition": {
+        "zh": "作为方法建议单独记录。",
+        "en": "Record separately as method guidance."
+      },
+      "ai_allowed": {
+        "zh": "按数据形态推荐方法。",
+        "en": "Recommend a method based on data shape."
+      },
+      "ai_forbidden": {
+        "zh": "把图表存在等同于问题描述完整。",
+        "en": "Equate the presence of a chart with a complete problem description."
+      }
+    },
+    {
+      "rule_id": "VDA-D3-B01",
+      "source_type": "VDA_BASIC",
+      "chapter": "3.2 and 3.4.1 D3, pp. 28-31",
+      "step": "D3",
+      "requirement": {
+        "zh": "围堵措施应基于D2事实和IS/IS NOT，并考虑整个供应链及潜在受影响方。",
+        "en": "Containment actions are to be based on D2 facts and IS/IS NOT and consider the full supply chain and potentially affected parties."
+      },
+      "check_condition": {
+        "zh": "覆盖点是否包括供应商、内部物流/库存/在制、客户和售后等适用范围。",
+        "en": "Check applicable coverage points including supplier, internal logistics/stock/WIP, customer, and service."
+      },
+      "blocking_condition": {
+        "zh": "围堵范围与D2影响范围不一致且无理由。",
+        "en": "Containment scope is inconsistent with D2 affected scope without rationale."
+      },
+      "completion_condition": {
+        "zh": "围堵依据和覆盖范围明确。",
+        "en": "Containment basis and coverage are clear."
+      },
+      "ai_allowed": {
+        "zh": "提示供应链覆盖缺口。",
+        "en": "Flag supply-chain coverage gaps."
+      },
+      "ai_forbidden": {
+        "zh": "假定未说明库存已被隔离。",
+        "en": "Assume unreported stock has been quarantined."
+      }
+    },
+    {
+      "rule_id": "VDA-D3-B02",
+      "source_type": "VDA_BASIC",
+      "chapter": "3.2 and 3.4.1 D3, pp. 30-31",
+      "step": "D3",
+      "requirement": {
+        "zh": "每项围堵应有详细描述、责任人、计划/实际日期及有效性证据。",
+        "en": "Each containment action is to have a detailed description, owner, planned/actual dates, and effectiveness evidence."
+      },
+      "check_condition": {
+        "zh": "五项字段是否完整且证据可追溯。",
+        "en": "Check whether the five elements are complete and evidence is traceable."
+      },
+      "blocking_condition": {
+        "zh": "已称围堵有效但无量化或可核查证据。",
+        "en": "Containment is called effective without quantified or checkable evidence."
+      },
+      "completion_condition": {
+        "zh": "必要字段和有效性证据完整。",
+        "en": "Required fields and effectiveness evidence are complete."
+      },
+      "ai_allowed": {
+        "zh": "整理措施台账并指出空项。",
+        "en": "Structure an action log and flag blanks."
+      },
+      "ai_forbidden": {
+        "zh": "编造筛选数量、良率或日期。",
+        "en": "Invent sorting quantity, yield, or dates."
+      }
+    },
+    {
+      "rule_id": "VDA-D3-B03",
+      "source_type": "VDA_BASIC",
+      "chapter": "3.2 and 3.4.1 D3, pp. 29-31",
+      "step": "D3",
+      "requirement": {
+        "zh": "围堵应评估残余风险和副作用，实施后持续监控；不采取围堵时必须记录理由。",
+        "en": "Containment is to assess residual risk and side effects and be monitored after implementation; if no containment is taken, the rationale must be recorded."
+      },
+      "check_condition": {
+        "zh": "风险、监控记录及无措施理由是否存在。",
+        "en": "Check for risk, monitoring records, and rationale when no action is used."
+      },
+      "blocking_condition": {
+        "zh": "必要围堵缺失且无理由，或副作用/残余风险未考虑。",
+        "en": "Necessary containment is absent without rationale, or side effects/residual risk were not considered."
+      },
+      "completion_condition": {
+        "zh": "风险与持续监控可追溯，或无围堵理由可追溯。",
+        "en": "Risk and ongoing monitoring are traceable, or the no-containment rationale is traceable."
+      },
+      "ai_allowed": {
+        "zh": "提示风险或监控证据缺口。",
+        "en": "Flag gaps in risk or monitoring evidence."
+      },
+      "ai_forbidden": {
+        "zh": "替用户确认“不需要围堵”。",
+        "en": "Confirm 'no containment needed' for the user."
+      }
+    },
+    {
+      "rule_id": "VDA-D3-E01",
+      "source_type": "VDA_EXCELLENCE",
+      "chapter": "3.4.2 D3 - Criteria for reaching excellent, p. 31",
+      "step": "D3",
+      "requirement": {
+        "zh": "优秀实践包括Clean-point有效性记录以及对残余风险和副作用的系统化调查。",
+        "en": "Excellent practice includes clean-point effectiveness records and systematic investigation of residual risk and side effects."
+      },
+      "check_condition": {
+        "zh": "优秀证据是否存在。",
+        "en": "Check whether excellence evidence exists."
+      },
+      "blocking_condition": {
+        "zh": "无；不得阻塞D3基础完成。",
+        "en": "None; this must not block D3 baseline completion."
+      },
+      "completion_condition": {
+        "zh": "单独记录Excellence状态。",
+        "en": "Record excellence status separately."
+      },
+      "ai_allowed": {
+        "zh": "建议Clean-point记录。",
+        "en": "Suggest clean-point documentation."
+      },
+      "ai_forbidden": {
+        "zh": "把Clean-point作为所有场景的唯一基础证据。",
+        "en": "Treat clean-point documentation as the sole baseline evidence for every case."
+      }
+    },
+    {
+      "rule_id": "VDA-D3-M01",
+      "source_type": "VDA_METHOD_GUIDANCE",
+      "chapter": "3.2-3.3 D3 Process and tools, pp. 28-30",
+      "step": "D3",
+      "requirement": {
+        "zh": "围堵有效性宜在实施前量化，并可用试验、前后对比、SPC或MSA等证据验证。",
+        "en": "Containment effectiveness should be quantified before implementation and may be verified using tests, before/after comparison, SPC, MSA, or similar evidence."
+      },
+      "check_condition": {
+        "zh": "判据是否预先定义且方法适合风险。",
+        "en": "Check whether criteria were predefined and the method fits the risk."
+      },
+      "blocking_condition": {
+        "zh": "若无任何有效性判据或证据则由D3基础规则阻塞；特定方法不强制。",
+        "en": "Absence of any effectiveness criterion or evidence is blocked by D3 baseline rules; no specific method is mandatory."
+      },
+      "completion_condition": {
+        "zh": "方法建议与基础证据要求分开。",
+        "en": "Method guidance remains separate from the baseline evidence requirement."
+      },
+      "ai_allowed": {
+        "zh": "建议与风险匹配的验证方法。",
+        "en": "Suggest a risk-appropriate verification method."
+      },
+      "ai_forbidden": {
+        "zh": "凭建议方法名称声称围堵有效。",
+        "en": "Claim containment effectiveness from the name of a suggested method."
+      }
+    },
+    {
+      "rule_id": "VDA-D3-M02",
+      "source_type": "VDA_METHOD_GUIDANCE",
+      "chapter": "3.2 and 3.5 D3, pp. 30-31",
+      "step": "D3",
+      "requirement": {
+        "zh": "新D2/D4信息出现时应调整围堵并持续更新风险；早期解除是明确风险。",
+        "en": "Containment and risk assessment should be updated when new D2/D4 information emerges; early removal is an explicit risk."
+      },
+      "check_condition": {
+        "zh": "范围或原因变化后围堵是否重新评估。",
+        "en": "Check whether containment was reassessed after scope or cause changed."
+      },
+      "blocking_condition": {
+        "zh": "新事实扩大风险但围堵未复核。",
+        "en": "New facts expand risk but containment was not reviewed."
+      },
+      "completion_condition": {
+        "zh": "变更后的围堵和风险状态一致。",
+        "en": "Updated containment and risk states are consistent."
+      },
+      "ai_allowed": {
+        "zh": "触发Stale并提示复核。",
+        "en": "Trigger stale status and prompt review."
+      },
+      "ai_forbidden": {
+        "zh": "保持过期围堵结论为有效。",
+        "en": "Keep an outdated containment conclusion valid."
+      }
+    },
+    {
+      "rule_id": "PR-D3-001",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product safety rule; grounded in VDA 3.1, 3.5, 6.2, pp. 28, 31, 44",
+      "step": "D3",
+      "requirement": {
+        "zh": "D3围堵在D6已实施纠正措施的有效性被实际结果确认前不得自动解除。",
+        "en": "D3 containment must not be automatically removed before actual D6 results confirm effectiveness of the implemented corrective actions."
+      },
+      "check_condition": {
+        "zh": "是否存在D6验证结果、人工解除决定和解除日期。",
+        "en": "Check for D6 validation results, a human removal decision, and removal date."
+      },
+      "blocking_condition": {
+        "zh": "D6未验证或仅计划/已实施，系统却解除围堵。",
+        "en": "The system removes containment while D6 is unvalidated or only planned/implemented."
+      },
+      "completion_condition": {
+        "zh": "解除仅在D6验证后由授权人员记录。",
+        "en": "Removal is recorded by an authorized person only after D6 validation."
+      },
+      "ai_allowed": {
+        "zh": "提示解除前提尚未满足。",
+        "en": "Indicate that removal prerequisites are not met."
+      },
+      "ai_forbidden": {
+        "zh": "自动解除或默认解除围堵。",
+        "en": "Automatically or implicitly remove containment."
+      }
+    },
+    {
+      "rule_id": "VDA-D4-B01",
+      "source_type": "VDA_BASIC",
+      "chapter": "4.2 and 4.4.1 D4 occurrence, pp. 32-36",
+      "step": "D4",
+      "requirement": {
+        "zh": "必须用系统方法识别并验证Technical Occurrence Cause。",
+        "en": "The Technical Occurrence Cause must be systematically identified and verified."
+      },
+      "check_condition": {
+        "zh": "是否说明问题如何发生，并有与D2一致的验证证据。",
+        "en": "Check whether it explains how the problem occurred and has verification evidence consistent with D2."
+      },
+      "blocking_condition": {
+        "zh": "只有可能原因或相关性，没有验证。",
+        "en": "Only a possible cause or correlation exists, without verification."
+      },
+      "completion_condition": {
+        "zh": "技术发生根因已识别并验证。",
+        "en": "The technical occurrence root cause is identified and verified."
+      },
+      "ai_allowed": {
+        "zh": "把可能原因标为假设并建议验证。",
+        "en": "Label a possible cause as a hypothesis and suggest verification."
+      },
+      "ai_forbidden": {
+        "zh": "将最可能原因自动升级为已验证根因。",
+        "en": "Automatically upgrade the most likely cause to verified root cause."
+      }
+    },
+    {
+      "rule_id": "VDA-D4-B02",
+      "source_type": "VDA_BASIC",
+      "chapter": "4.2 and 4.4.1 D4 occurrence, pp. 33-36",
+      "step": "D4",
+      "requirement": {
+        "zh": "必须从已识别技术发生根因出发，识别Systemic Occurrence Cause。",
+        "en": "Starting from the identified technical occurrence cause, the Systemic Occurrence Cause must be identified."
+      },
+      "check_condition": {
+        "zh": "是否解释管理体系为何允许或未预防技术发生原因。",
+        "en": "Check whether it explains why the management system allowed or failed to prevent the technical occurrence cause."
+      },
+      "blocking_condition": {
+        "zh": "只有技术原因，没有对应系统发生原因。",
+        "en": "A technical cause exists without a corresponding systemic occurrence cause."
+      },
+      "completion_condition": {
+        "zh": "系统发生根因与技术发生根因可追溯关联。",
+        "en": "The systemic occurrence root cause is traceably linked to the technical occurrence root cause."
+      },
+      "ai_allowed": {
+        "zh": "追问标准、职责、变更、风险管理或过程控制为何允许该条件。",
+        "en": "Ask how standards, responsibilities, change control, risk management, or process controls allowed the condition."
+      },
+      "ai_forbidden": {
+        "zh": "把个人过失当作系统分析终点。",
+        "en": "Use individual blame as the endpoint of systemic analysis."
+      }
+    },
+    {
+      "rule_id": "VDA-D4-B03",
+      "source_type": "VDA_BASIC",
+      "chapter": "4.2 and 4.4.3 D4 non-detection, pp. 32-37",
+      "step": "D4",
+      "requirement": {
+        "zh": "必须用系统方法识别并验证Technical Non-detection Cause。",
+        "en": "The Technical Non-detection Cause must be systematically identified and verified."
+      },
+      "check_condition": {
+        "zh": "是否说明已发生问题为何未被现有探测/控制识别。",
+        "en": "Check whether it explains why the occurred problem was not identified by existing detection/control."
+      },
+      "blocking_condition": {
+        "zh": "把发生原因重复填写为未检出原因，或没有探测链分析。",
+        "en": "The occurrence cause is repeated as the non-detection cause, or no detection-chain analysis exists."
+      },
+      "completion_condition": {
+        "zh": "技术未检出根因已识别并验证。",
+        "en": "The technical non-detection root cause is identified and verified."
+      },
+      "ai_allowed": {
+        "zh": "区分发生机制与探测失效点。",
+        "en": "Separate the occurrence mechanism from the detection failure point."
+      },
+      "ai_forbidden": {
+        "zh": "因问题流出就默认“检验员漏检”。",
+        "en": "Default to 'inspector missed it' merely because the problem escaped."
+      }
+    },
+    {
+      "rule_id": "VDA-D4-B04",
+      "source_type": "VDA_BASIC",
+      "chapter": "4.2 and 4.4.3 D4 non-detection, pp. 33-37",
+      "step": "D4",
+      "requirement": {
+        "zh": "必须从技术未检出根因出发，识别Systemic Non-detection Cause。",
+        "en": "Starting from the technical non-detection cause, the Systemic Non-detection Cause must be identified."
+      },
+      "check_condition": {
+        "zh": "是否解释管理体系为何允许探测控制无效或缺失。",
+        "en": "Check whether it explains why the management system allowed ineffective or absent detection control."
+      },
+      "blocking_condition": {
+        "zh": "只有“未检出”现象或技术失效，没有系统允许原因。",
+        "en": "Only the escape symptom or technical failure exists, without the systemic allowance cause."
+      },
+      "completion_condition": {
+        "zh": "系统未检出根因与技术未检出根因可追溯关联。",
+        "en": "The systemic non-detection root cause is traceably linked to the technical non-detection root cause."
+      },
+      "ai_allowed": {
+        "zh": "追问控制计划、检验设计、维护、能力、反应计划或审核缺口。",
+        "en": "Ask about gaps in control plan, inspection design, maintenance, capability, reaction plan, or audit."
+      },
+      "ai_forbidden": {
+        "zh": "把“加强检验”当作系统未检出根因。",
+        "en": "Treat 'increase inspection' as a systemic non-detection root cause."
+      }
+    },
+    {
+      "rule_id": "VDA-D4-B05",
+      "source_type": "VDA_BASIC",
+      "chapter": "4.2, 4.4.1 and 4.4.3 D4, pp. 32-37",
+      "step": "D4",
+      "requirement": {
+        "zh": "原因识别必须系统化；发生原因需与D2 IS/IS NOT无矛盾，发生和未检出风险评估应更新。",
+        "en": "Cause identification must be systematic; occurrence causes must not contradict D2 IS/IS NOT, and risk assessment for occurrence and non-detection is to be updated."
+      },
+      "check_condition": {
+        "zh": "方法、D2一致性和风险更新是否可追溯。",
+        "en": "Check traceability of method, D2 consistency, and risk update."
+      },
+      "blocking_condition": {
+        "zh": "根因与已知事实矛盾，或风险未根据根因更新。",
+        "en": "A root cause contradicts known facts, or risk was not updated from the causes."
+      },
+      "completion_condition": {
+        "zh": "系统分析、事实一致性和风险更新均完成。",
+        "en": "Systematic analysis, fact consistency, and risk update are complete."
+      },
+      "ai_allowed": {
+        "zh": "列出与IS/IS NOT的支持点和矛盾点。",
+        "en": "List supporting and conflicting IS/IS NOT points."
+      },
+      "ai_forbidden": {
+        "zh": "忽略反证。",
+        "en": "Ignore disconfirming evidence."
+      }
+    },
+    {
+      "rule_id": "VDA-D4-B06",
+      "source_type": "VDA_BASIC",
+      "chapter": "4.2 and 4.4.1/4.4.3 D4, pp. 35-37",
+      "step": "D4",
+      "requirement": {
+        "zh": "每项已识别根因应分配故障原因类别；根因结论需有验证支持。",
+        "en": "Each identified root cause is to receive a failure-cause category, and root-cause conclusions require verification support."
+      },
+      "check_condition": {
+        "zh": "根因、类别和验证证据是否一一关联。",
+        "en": "Check one-to-one linkage among root cause, category, and verification evidence."
+      },
+      "blocking_condition": {
+        "zh": "根因缺类别或缺验证证据。",
+        "en": "A root cause lacks a category or verification evidence."
+      },
+      "completion_condition": {
+        "zh": "所有根因均有类别与证据。",
+        "en": "All root causes have categories and evidence."
+      },
+      "ai_allowed": {
+        "zh": "建议最接近的类别并标记待人工确认。",
+        "en": "Suggest a best-fit category and mark it for human confirmation."
+      },
+      "ai_forbidden": {
+        "zh": "把故障原因类别当作根因本身。",
+        "en": "Treat a failure-cause category as the root cause itself."
+      }
+    },
+    {
+      "rule_id": "VDA-D4-E01",
+      "source_type": "VDA_EXCELLENCE",
+      "chapter": "4.4.2 and 4.4.4 D4 - Criteria for reaching excellent, pp. 36-37",
+      "step": "D4",
+      "requirement": {
+        "zh": "优秀D4应易于追溯，证明已完整确定原因，并让第三方理解从症状到验证的全过程。",
+        "en": "An excellent D4 is easy to follow, demonstrates complete cause determination, and lets a third party understand the path from symptom to verification."
+      },
+      "check_condition": {
+        "zh": "第三方是否无需额外解释即可追溯分析。",
+        "en": "Check whether a third party can trace the analysis without additional explanation."
+      },
+      "blocking_condition": {
+        "zh": "无；不得阻塞D4基础完成。",
+        "en": "None; this must not block D4 baseline completion."
+      },
+      "completion_condition": {
+        "zh": "单独记录Excellence状态。",
+        "en": "Record excellence status separately."
+      },
+      "ai_allowed": {
+        "zh": "建议改善可追溯叙述。",
+        "en": "Suggest improvements to traceable explanation."
+      },
+      "ai_forbidden": {
+        "zh": "把优秀度叙述要求混入基础根因验证Gate。",
+        "en": "Mix excellence narrative requirements into the baseline root-cause validation gate."
+      }
+    },
+    {
+      "rule_id": "VDA-D4-M01",
+      "source_type": "VDA_METHOD_GUIDANCE",
+      "chapter": "4.2-4.3 D4 Process and tools, pp. 34-36",
+      "step": "D4",
+      "requirement": {
+        "zh": "可使用Ishikawa、FTA、5 Why、持续IS/IS NOT和假设检验；先广泛识别潜在原因，再筛选最可能原因进行测试。",
+        "en": "Ishikawa, FTA, 5 Why, continued IS/IS NOT, and hypothesis testing may be used; broadly identify potential causes before selecting the most likely causes for testing."
+      },
+      "check_condition": {
+        "zh": "方法是否适合复杂度且没有跳过潜在原因识别。",
+        "en": "Check whether the method fits complexity and does not skip potential-cause identification."
+      },
+      "blocking_condition": {
+        "zh": "无特定工具强制；但无系统原因识别由基础规则阻塞。",
+        "en": "No specific tool is mandatory; lack of systematic cause identification is blocked by baseline rules."
+      },
+      "completion_condition": {
+        "zh": "方法选择与基础结果要求分离。",
+        "en": "Method choice is separate from baseline result requirements."
+      },
+      "ai_allowed": {
+        "zh": "根据问题建议方法并生成待验证假设。",
+        "en": "Suggest a method and generate hypotheses for testing."
+      },
+      "ai_forbidden": {
+        "zh": "把完成5 Why等同于根因已验证。",
+        "en": "Equate completion of a 5 Why with verified root cause."
+      }
+    },
+    {
+      "rule_id": "VDA-D4-M02",
+      "source_type": "VDA_METHOD_GUIDANCE",
+      "chapter": "4.2 D4 - Verification of determined cause, pp. 34-35",
+      "step": "D4",
+      "requirement": {
+        "zh": "原因可先被动验证，再以换件、试验、实验或仿真等主动方式开/关原因；结合两者通常可形成明确证据。",
+        "en": "A cause may first be passively verified, then actively switched on/off through part exchange, tests, experiments, or simulation; combining both usually provides unequivocal evidence."
+      },
+      "check_condition": {
+        "zh": "验证是否能解释全部事实，主动验证是否可行且风险受控。",
+        "en": "Check whether verification explains all facts and whether active verification is feasible with controlled risk."
+      },
+      "blocking_condition": {
+        "zh": "只有未证实观察或主观判断却声称根因已验证。",
+        "en": "Only an unconfirmed observation or subjective judgment exists, yet the root cause is called verified."
+      },
+      "completion_condition": {
+        "zh": "验证强度足以支持根因状态；具体方法按风险选择。",
+        "en": "Verification strength supports root-cause status; the specific method is selected by risk."
+      },
+      "ai_allowed": {
+        "zh": "区分被动和主动验证并建议安全试验。",
+        "en": "Separate passive and active verification and suggest safe tests."
+      },
+      "ai_forbidden": {
+        "zh": "建议未经风险评估的危险开/关试验。",
+        "en": "Suggest a hazardous on/off test without risk assessment."
+      }
+    },
+    {
+      "rule_id": "PR-D4-001",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product AI policy - operator error handling; consistent with VDA 4.2 blame-free, fact-based analysis, pp. 32-33",
+      "step": "D4",
+      "requirement": {
+        "zh": "“operator error”“未遵守”“粗心”只能作为待分析陈述，不得作为最终根因；必须追问技术条件、探测失效及体系为何允许。",
+        "en": "'Operator error,' 'noncompliance,' or 'carelessness' may only be treated as statements requiring analysis, not final root causes; technical conditions, detection failure, and system allowance must be examined."
+      },
+      "check_condition": {
+        "zh": "是否存在可验证的人机料法环条件及相应系统控制缺口。",
+        "en": "Check for verifiable human-machine-material-method-environment conditions and corresponding system-control gaps."
+      },
+      "blocking_condition": {
+        "zh": "根因仅为人员标签或责备性结论。",
+        "en": "The root cause is only a people label or blame statement."
+      },
+      "completion_condition": {
+        "zh": "人员行为已转化为可验证条件并连接到技术与系统原因。",
+        "en": "Human behavior is translated into verifiable conditions linked to technical and systemic causes."
+      },
+      "ai_allowed": {
+        "zh": "用无责语言重构问题并提出具体追问。",
+        "en": "Reframe in blame-free language and ask specific follow-up questions."
+      },
+      "ai_forbidden": {
+        "zh": "把责任归咎个人或推荐以处罚代替根因分析。",
+        "en": "Assign blame to an individual or recommend punishment instead of root-cause analysis."
+      }
+    },
+    {
+      "rule_id": "VDA-D5-B01",
+      "source_type": "VDA_BASIC",
+      "chapter": "5.2 and 5.4.1/5.4.3 D5, pp. 38-41",
+      "step": "D5",
+      "requirement": {
+        "zh": "发生与未检出路径中每项技术和系统根因都应有候选纠正措施。",
+        "en": "Each technical and systemic root cause in both occurrence and non-detection paths is to have candidate corrective actions."
+      },
+      "check_condition": {
+        "zh": "根因-措施矩阵是否覆盖全部已验证根因。",
+        "en": "Check whether a root-cause-to-action matrix covers all verified root causes."
+      },
+      "blocking_condition": {
+        "zh": "任一已验证根因没有对应候选措施。",
+        "en": "Any verified root cause has no corresponding candidate action."
+      },
+      "completion_condition": {
+        "zh": "全部根因均有可追溯候选措施。",
+        "en": "All root causes have traceable candidate actions."
+      },
+      "ai_allowed": {
+        "zh": "建立覆盖矩阵并标出空缺。",
+        "en": "Build a coverage matrix and flag gaps."
+      },
+      "ai_forbidden": {
+        "zh": "用一个泛化措施默认覆盖所有根因。",
+        "en": "Assume one generic action covers every root cause."
+      }
+    },
+    {
+      "rule_id": "VDA-D5-B02",
+      "source_type": "VDA_BASIC",
+      "chapter": "5.1-5.2 and 5.4.1/5.4.3 D5, pp. 38-41",
+      "step": "D5",
+      "requirement": {
+        "zh": "计划措施应有可追溯的预实施有效性验证和可理解的选择理由，并兼顾效率。",
+        "en": "Planned actions are to have traceable pre-implementation effectiveness verification and understandable selection rationale, with efficiency considered."
+      },
+      "check_condition": {
+        "zh": "验证方法、结果、选择标准和理由是否存在。",
+        "en": "Check whether verification method, result, selection criteria, and rationale exist."
+      },
+      "blocking_condition": {
+        "zh": "措施仅凭偏好选择或没有预实施有效性依据。",
+        "en": "An action is selected only by preference or lacks pre-implementation effectiveness support."
+      },
+      "completion_condition": {
+        "zh": "选择与验证可追溯。",
+        "en": "Selection and verification are traceable."
+      },
+      "ai_allowed": {
+        "zh": "比较候选措施和明确选择维度。",
+        "en": "Compare candidates and make selection dimensions explicit."
+      },
+      "ai_forbidden": {
+        "zh": "替团队作最终工程选择。",
+        "en": "Make the final engineering selection for the team."
+      }
+    },
+    {
+      "rule_id": "VDA-D5-B03",
+      "source_type": "VDA_BASIC",
+      "chapter": "5.2 and 5.4.1/5.4.3 D5, pp. 39-41",
+      "step": "D5",
+      "requirement": {
+        "zh": "每项候选/选择措施的潜在副作用和风险应分析并记录。",
+        "en": "Potential side effects and risks of each candidate/selected action are to be analyzed and recorded."
+      },
+      "check_condition": {
+        "zh": "是否考虑对产品、过程、探测、安全、合规和其他客户的影响。",
+        "en": "Check impacts on product, process, detection, safety, compliance, and other customers."
+      },
+      "blocking_condition": {
+        "zh": "选择措施但未分析可能的不良影响。",
+        "en": "An action is selected without analyzing possible adverse effects."
+      },
+      "completion_condition": {
+        "zh": "副作用风险分析可追溯。",
+        "en": "Side-effect risk analysis is traceable."
+      },
+      "ai_allowed": {
+        "zh": "提示常见副作用维度。",
+        "en": "Prompt common side-effect dimensions."
+      },
+      "ai_forbidden": {
+        "zh": "宣称无副作用而无证据。",
+        "en": "Claim no side effects without evidence."
+      }
+    },
+    {
+      "rule_id": "VDA-D5-B04",
+      "source_type": "VDA_BASIC",
+      "chapter": "5.1 and 5.4.1/5.4.3 D5, pp. 38, 40-41",
+      "step": "D5",
+      "requirement": {
+        "zh": "应形成获批的详细实施计划，包括日期、责任人和获批资源。",
+        "en": "An approved detailed implementation plan is to be created, including dates, owners, and approved resources."
+      },
+      "check_condition": {
+        "zh": "计划字段和批准是否完整。",
+        "en": "Check completeness of plan fields and approval."
+      },
+      "blocking_condition": {
+        "zh": "缺责任人、日期、资源或批准。",
+        "en": "Owner, dates, resources, or approval are missing."
+      },
+      "completion_condition": {
+        "zh": "详细计划获批且可执行。",
+        "en": "The detailed plan is approved and executable."
+      },
+      "ai_allowed": {
+        "zh": "草拟计划结构并检查空项。",
+        "en": "Draft the plan structure and check blanks."
+      },
+      "ai_forbidden": {
+        "zh": "模拟批准或资源承诺。",
+        "en": "Simulate approval or resource commitment."
+      }
+    },
+    {
+      "rule_id": "VDA-D5-E01",
+      "source_type": "VDA_EXCELLENCE",
+      "chapter": "5.4.2 and 5.4.4 D5 - Criteria for reaching excellent, p. 41",
+      "step": "D5",
+      "requirement": {
+        "zh": "优秀D5使用方法化证据（如决策矩阵）并使第三方可理解。",
+        "en": "An excellent D5 uses methodical evidence, such as a decision matrix, and makes it understandable to third parties."
+      },
+      "check_condition": {
+        "zh": "方法化证据和第三方可理解性是否存在。",
+        "en": "Check for methodical evidence and third-party understandability."
+      },
+      "blocking_condition": {
+        "zh": "无；不得阻塞D5基础完成。",
+        "en": "None; this must not block D5 baseline completion."
+      },
+      "completion_condition": {
+        "zh": "单独记录Excellence状态。",
+        "en": "Record excellence status separately."
+      },
+      "ai_allowed": {
+        "zh": "建议决策矩阵。",
+        "en": "Suggest a decision matrix."
+      },
+      "ai_forbidden": {
+        "zh": "要求所有案例必须使用决策矩阵才能基础通过。",
+        "en": "Require a decision matrix for baseline pass in every case."
+      }
+    },
+    {
+      "rule_id": "VDA-D5-M01",
+      "source_type": "VDA_METHOD_GUIDANCE",
+      "chapter": "5.3 D5 - Applicable methods and tools, pp. 39-40",
+      "step": "D5",
+      "requirement": {
+        "zh": "可用创意技术、防错、流程图、决策/风险矩阵、DOE、能力分析、FMEA、项目计划和审批等方法开发及验证措施。",
+        "en": "Creativity techniques, mistake-proofing, flowcharts, decision/risk matrices, DOE, capability analysis, FMEA, project planning, and approvals may be used to develop and verify actions."
+      },
+      "check_condition": {
+        "zh": "方法是否适合根因、风险和资源。",
+        "en": "Check whether the method fits the root cause, risk, and resources."
+      },
+      "blocking_condition": {
+        "zh": "无特定方法强制。",
+        "en": "No specific method is mandatory."
+      },
+      "completion_condition": {
+        "zh": "作为方法建议单独记录。",
+        "en": "Record separately as method guidance."
+      },
+      "ai_allowed": {
+        "zh": "推荐方法组合。",
+        "en": "Recommend a method combination."
+      },
+      "ai_forbidden": {
+        "zh": "把工具名称当作有效性证据。",
+        "en": "Treat a tool name as effectiveness evidence."
+      }
+    },
+    {
+      "rule_id": "PR-D5-001",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product AI policy - D5/D6 state separation; aligned with VDA 5.2 and 6.2, pp. 38, 43-44",
+      "step": "D5",
+      "requirement": {
+        "zh": "D5只表示计划措施的选择和实施前验证，不得标为已实施或以实际结果验证有效。",
+        "en": "D5 represents selection and pre-implementation verification of planned actions only; it must not be labeled implemented or validated effective by actual results."
+      },
+      "check_condition": {
+        "zh": "措施状态是否为PLANNED_ACTION，实施和实际结果是否留在D6。",
+        "en": "Check whether the action state is PLANNED_ACTION and implementation/actual results remain in D6."
+      },
+      "blocking_condition": {
+        "zh": "D5记录把计划写成实施，或把预计结果写成实际验证结果。",
+        "en": "D5 writes a plan as implemented or an expected result as an actual validated result."
+      },
+      "completion_condition": {
+        "zh": "D5/D6状态边界清楚。",
+        "en": "The D5/D6 state boundary is clear."
+      },
+      "ai_allowed": {
+        "zh": "纠正状态标签并解释差异。",
+        "en": "Correct state labels and explain the distinction."
+      },
+      "ai_forbidden": {
+        "zh": "为使D5通过而伪造实施状态。",
+        "en": "Fabricate implementation state to make D5 pass."
+      }
+    },
+    {
+      "rule_id": "VDA-D6-B01",
+      "source_type": "VDA_BASIC",
+      "chapter": "6.2 and 6.4.1/6.4.3 D6, pp. 43-45",
+      "step": "D6",
+      "requirement": {
+        "zh": "应按照D5行动计划实施发生与未检出路径的长期纠正措施。",
+        "en": "Long-term corrective actions for occurrence and non-detection are to be implemented according to the D5 action plan."
+      },
+      "check_condition": {
+        "zh": "每项D5措施是否有实施范围、责任人、实际日期和记录。",
+        "en": "Check each D5 action for implementation scope, owner, actual date, and record."
+      },
+      "blocking_condition": {
+        "zh": "计划措施未实施或实施记录缺失。",
+        "en": "A planned action is not implemented or lacks an implementation record."
+      },
+      "completion_condition": {
+        "zh": "所有所选长期措施均有可追溯实施记录。",
+        "en": "All selected long-term actions have traceable implementation records."
+      },
+      "ai_allowed": {
+        "zh": "比较D5计划与D6实施。",
+        "en": "Compare the D5 plan with D6 implementation."
+      },
+      "ai_forbidden": {
+        "zh": "根据计划日期推定已实施。",
+        "en": "Infer implementation from a planned date."
+      }
+    },
+    {
+      "rule_id": "VDA-D6-B02",
+      "source_type": "VDA_BASIC",
+      "chapter": "6.1-6.4 D6, pp. 43-45",
+      "step": "D6",
+      "requirement": {
+        "zh": "长期纠正措施的有效性必须用实施后的实际结果验证。",
+        "en": "The effectiveness of long-term corrective actions must be validated using actual post-implementation results."
+      },
+      "check_condition": {
+        "zh": "判据、基线、实际结果、观察期/样本量及副作用是否充分。",
+        "en": "Check adequacy of criteria, baseline, actual results, observation period/sample size, and side effects."
+      },
+      "blocking_condition": {
+        "zh": "只有完成记录、预计效果或无判据数据。",
+        "en": "Only completion records or expected effects exist, or data lack criteria."
+      },
+      "completion_condition": {
+        "zh": "实际结果满足预定义判据并支持长期有效。",
+        "en": "Actual results meet predefined criteria and support long-term effectiveness."
+      },
+      "ai_allowed": {
+        "zh": "计算或总结用户提供的验证数据并指出限制。",
+        "en": "Calculate or summarize user-supplied validation data and flag limitations."
+      },
+      "ai_forbidden": {
+        "zh": "生成或补写实际验证数据。",
+        "en": "Generate or fill in actual validation data."
+      }
+    },
+    {
+      "rule_id": "VDA-D6-B03",
+      "source_type": "VDA_BASIC",
+      "chapter": "6.2 and 6.4.1/6.4.3 D6, pp. 43-45",
+      "step": "D6",
+      "requirement": {
+        "zh": "D3围堵只能在纠正措施有效性确认后解除；实施中改变计划或出现新信息时应返回D5。",
+        "en": "D3 containment may be removed only after corrective-action effectiveness is confirmed; plan changes or new information during implementation are to return to D5."
+      },
+      "check_condition": {
+        "zh": "解除顺序、批准记录以及任何计划变更的D5复核是否存在。",
+        "en": "Check removal sequence, approval record, and D5 review of any plan change."
+      },
+      "blocking_condition": {
+        "zh": "围堵早于D6验证解除，或实施变化未回到D5。",
+        "en": "Containment is removed before D6 validation, or implementation changes were not returned to D5."
+      },
+      "completion_condition": {
+        "zh": "有效性确认在先，人工解除记录在后；变更已复核。",
+        "en": "Effectiveness confirmation precedes the human removal record, and changes were reviewed."
+      },
+      "ai_allowed": {
+        "zh": "检查时间顺序并触发阻塞。",
+        "en": "Check chronology and trigger a blocker."
+      },
+      "ai_forbidden": {
+        "zh": "自动解除围堵。",
+        "en": "Automatically remove containment."
+      }
+    },
+    {
+      "rule_id": "VDA-D6-E01",
+      "source_type": "VDA_EXCELLENCE",
+      "chapter": "6.4.2 and 6.4.4 D6 - Criteria for reaching excellent, pp. 45-46",
+      "step": "D6",
+      "requirement": {
+        "zh": "优秀D6用可理解的方法证据记录验证，并可追溯长期嵌入相关过程、体系和标准。",
+        "en": "An excellent D6 records validation with understandable method evidence and traceably embeds actions into related processes, systems, and standards."
+      },
+      "check_condition": {
+        "zh": "第三方证据可理解性和长期嵌入记录是否存在。",
+        "en": "Check for third-party-understandable evidence and long-term embedding records."
+      },
+      "blocking_condition": {
+        "zh": "无；不得阻塞D6基础完成。",
+        "en": "None; this must not block D6 baseline completion."
+      },
+      "completion_condition": {
+        "zh": "单独记录Excellence状态。",
+        "en": "Record excellence status separately."
+      },
+      "ai_allowed": {
+        "zh": "建议补充图表、照片或长期嵌入证据。",
+        "en": "Suggest charts, photos, or long-term embedding evidence."
+      },
+      "ai_forbidden": {
+        "zh": "把优秀呈现要求当作基础验证本身。",
+        "en": "Treat excellent presentation as the baseline validation itself."
+      }
+    },
+    {
+      "rule_id": "VDA-D6-M01",
+      "source_type": "VDA_METHOD_GUIDANCE",
+      "chapter": "6.3 D6 - Applicable methods and tools, p. 44",
+      "step": "D6",
+      "requirement": {
+        "zh": "实施可参考行动/资源/项目计划及批准文件；验证可用缺陷趋势、日志、能力、交互分析、KPI和安全/信息安全评估。",
+        "en": "Implementation may use action/resource/project plans and approval documents; validation may use defect trends, logs, capability, interaction analysis, KPIs, and safety/security assessments."
+      },
+      "check_condition": {
+        "zh": "方法是否能直接检验预定义有效性判据。",
+        "en": "Check whether the method directly tests predefined effectiveness criteria."
+      },
+      "blocking_condition": {
+        "zh": "无特定方法强制。",
+        "en": "No specific method is mandatory."
+      },
+      "completion_condition": {
+        "zh": "作为方法建议单独记录。",
+        "en": "Record separately as method guidance."
+      },
+      "ai_allowed": {
+        "zh": "建议与数据和风险匹配的验证方法。",
+        "en": "Suggest validation methods suited to data and risk."
+      },
+      "ai_forbidden": {
+        "zh": "把KPI名称当作实际结果。",
+        "en": "Treat a KPI name as an actual result."
+      }
+    },
+    {
+      "rule_id": "PR-D6-001",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product AI policy - implementation/validation state separation; aligned with VDA 6.1-6.2, pp. 43-44",
+      "step": "D6",
+      "requirement": {
+        "zh": "IMPLEMENTED_ACTION与VALIDATED_RESULT必须分别记录；前者不能自动升级为后者。",
+        "en": "IMPLEMENTED_ACTION and VALIDATED_RESULT must be recorded separately; the former must not be automatically upgraded to the latter."
+      },
+      "check_condition": {
+        "zh": "实施证据与有效性结果是否分字段、分状态。",
+        "en": "Check whether implementation evidence and effectiveness results are stored in separate fields and states."
+      },
+      "blocking_condition": {
+        "zh": "仅因措施完成就标记有效。",
+        "en": "An action is marked effective merely because it is complete."
+      },
+      "completion_condition": {
+        "zh": "两种状态及各自证据清楚分离。",
+        "en": "The two states and their evidence are clearly separated."
+      },
+      "ai_allowed": {
+        "zh": "纠正状态并请求验证数据。",
+        "en": "Correct the state and request validation data."
+      },
+      "ai_forbidden": {
+        "zh": "用完成百分比推断有效性。",
+        "en": "Infer effectiveness from completion percentage."
+      }
+    },
+    {
+      "rule_id": "VDA-D7-B01",
+      "source_type": "VDA_BASIC",
+      "chapter": "7.2 and 7.4.1 D7, pp. 47-49",
+      "step": "D7",
+      "requirement": {
+        "zh": "团队可影响的相关文件应复审并按需要修订，记录必须可追溯。",
+        "en": "Relevant documents within the team's influence are to be reviewed and revised as needed, with traceable records."
+      },
+      "check_condition": {
+        "zh": "FMEA、控制计划、测试计划/说明、图纸、规格和工作文件等是否逐项检查。",
+        "en": "Check FMEA, control plan, test plans/instructions, drawings, specifications, work documents, and other applicable records."
+      },
+      "blocking_condition": {
+        "zh": "相关文件未复审，或声称更新但无证据。",
+        "en": "Relevant documents were not reviewed, or updates are claimed without evidence."
+      },
+      "completion_condition": {
+        "zh": "复审和修订结果可追溯。",
+        "en": "Review and revision results are traceable."
+      },
+      "ai_allowed": {
+        "zh": "建立文件复审矩阵。",
+        "en": "Build a document-review matrix."
+      },
+      "ai_forbidden": {
+        "zh": "假定文件自动同步更新。",
+        "en": "Assume documents were automatically synchronized."
+      }
+    },
+    {
+      "rule_id": "VDA-D7-B02",
+      "source_type": "VDA_BASIC",
+      "chapter": "7.2 and 7.4.1 D7, pp. 47-49",
+      "step": "D7",
+      "requirement": {
+        "zh": "应评估解决方案对相似产品、过程和地点的适用性，并按需启动Lessons Learned或持续改进。",
+        "en": "Applicability of the solution to similar products, processes, and locations is to be assessed, with Lessons Learned or continual improvement initiated as needed."
+      },
+      "check_condition": {
+        "zh": "横向展开对象、判断、接收方和证据是否存在。",
+        "en": "Check for deployment targets, decisions, recipients, and evidence."
+      },
+      "blocking_condition": {
+        "zh": "没有相似范围评估或遗漏明显相关地点。",
+        "en": "No similar-scope assessment exists or an obviously relevant location is omitted."
+      },
+      "completion_condition": {
+        "zh": "适用性评估及展开记录可追溯。",
+        "en": "Applicability assessment and deployment records are traceable."
+      },
+      "ai_allowed": {
+        "zh": "建议基于共享根因/过程/控制的展开对象。",
+        "en": "Suggest deployment targets based on shared causes, processes, or controls."
+      },
+      "ai_forbidden": {
+        "zh": "替接收组织确认适用性。",
+        "en": "Confirm applicability on behalf of a receiving organization."
+      }
+    },
+    {
+      "rule_id": "VDA-D7-B03",
+      "source_type": "VDA_BASIC",
+      "chapter": "7.2 and 7.4.1 D7, pp. 48-49",
+      "step": "D7",
+      "requirement": {
+        "zh": "知识移交必须记录；若不采取预防措施或不移交，必须记录理由。",
+        "en": "Knowledge transfer must be recorded; if no preventive action or handover is used, the rationale must be recorded."
+      },
+      "check_condition": {
+        "zh": "移交内容、接收方、日期和无措施理由是否存在。",
+        "en": "Check for transferred content, recipient, date, and no-action rationale."
+      },
+      "blocking_condition": {
+        "zh": "无移交记录且无理由。",
+        "en": "No transfer record and no rationale exist."
+      },
+      "completion_condition": {
+        "zh": "移交或不移交理由可追溯。",
+        "en": "Transfer or no-transfer rationale is traceable."
+      },
+      "ai_allowed": {
+        "zh": "提示缺失接收方或移交证据。",
+        "en": "Flag a missing recipient or transfer evidence."
+      },
+      "ai_forbidden": {
+        "zh": "把“已分享”当作充分记录而无对象和证据。",
+        "en": "Treat 'shared' as adequate without recipient and evidence."
+      }
+    },
+    {
+      "rule_id": "VDA-D7-E01",
+      "source_type": "VDA_EXCELLENCE",
+      "chapter": "7.4.2 D7 - Criteria for reaching excellent, p. 49",
+      "step": "D7",
+      "requirement": {
+        "zh": "优秀D7明确预防措施/知识移交监督责任人，并由接收方评估适用性。",
+        "en": "An excellent D7 names the person supervising preventive actions/knowledge transfer and has applicability assessed by the recipient."
+      },
+      "check_condition": {
+        "zh": "监督人和接收方评估是否有记录。",
+        "en": "Check for a supervisor and recipient assessment record."
+      },
+      "blocking_condition": {
+        "zh": "无；不得阻塞D7基础完成。",
+        "en": "None; this must not block D7 baseline completion."
+      },
+      "completion_condition": {
+        "zh": "单独记录Excellence状态。",
+        "en": "Record excellence status separately."
+      },
+      "ai_allowed": {
+        "zh": "建议指定监督人和接收方确认。",
+        "en": "Suggest assigning a supervisor and recipient confirmation."
+      },
+      "ai_forbidden": {
+        "zh": "把接收方评估缺失判为基础失败。",
+        "en": "Treat missing recipient assessment as baseline failure."
+      }
+    },
+    {
+      "rule_id": "VDA-D7-M01",
+      "source_type": "VDA_METHOD_GUIDANCE",
+      "chapter": "7.2-7.3 D7 Process and tools, pp. 47-48",
+      "step": "D7",
+      "requirement": {
+        "zh": "可通过Lessons Learned、知识管理和专家网络传播信息；超出团队权限的高层措施应移交组织。",
+        "en": "Lessons Learned, knowledge management, and expert networks may transfer information; higher-level actions beyond team authority should be handed to the organization."
+      },
+      "check_condition": {
+        "zh": "移交机制是否适合范围且有责任承接。",
+        "en": "Check whether the handover mechanism fits the scope and has accountable ownership."
+      },
+      "blocking_condition": {
+        "zh": "基础要求中的移交缺失会阻塞；具体方法不强制。",
+        "en": "Missing handover under baseline rules blocks; the specific method is not mandatory."
+      },
+      "completion_condition": {
+        "zh": "方法建议与基础移交要求分开。",
+        "en": "Method guidance remains separate from the baseline handover requirement."
+      },
+      "ai_allowed": {
+        "zh": "建议适合的知识移交通道。",
+        "en": "Suggest an appropriate knowledge-transfer route."
+      },
+      "ai_forbidden": {
+        "zh": "声称知识库条目自动代表措施已实施。",
+        "en": "Claim a knowledge-base entry means actions were implemented."
+      }
+    },
+    {
+      "rule_id": "PR-D7-001",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product AI policy - D7 explicit dual check; grounded in VDA 7.4.1, p. 49",
+      "step": "D7",
+      "requirement": {
+        "zh": "D7 Gate必须分别检查横向展开和文件更新，两者不得互相替代。",
+        "en": "The D7 gate must separately check horizontal deployment and document updates; neither may substitute for the other."
+      },
+      "check_condition": {
+        "zh": "是否存在两个独立结果及证据。",
+        "en": "Check for two independent results and evidence sets."
+      },
+      "blocking_condition": {
+        "zh": "只有展开没有文件复审，或只有文件更新没有相似范围评估。",
+        "en": "Deployment exists without document review, or document updates exist without similar-scope assessment."
+      },
+      "completion_condition": {
+        "zh": "两项均满足或各自有获授权的理由记录。",
+        "en": "Both are satisfied or each has an authorized recorded rationale."
+      },
+      "ai_allowed": {
+        "zh": "分别列出两类缺口。",
+        "en": "List the two classes of gaps separately."
+      },
+      "ai_forbidden": {
+        "zh": "用一个“Lessons Learned完成”状态自动通过D7。",
+        "en": "Auto-pass D7 from a single 'Lessons Learned complete' status."
+      }
+    },
+    {
+      "rule_id": "VDA-D8-B01",
+      "source_type": "VDA_BASIC",
+      "chapter": "8.2 and 8.4.1 D8, pp. 51-52",
+      "step": "D8",
+      "requirement": {
+        "zh": "关闭前D1-D7及所有与具体问题相关的措施必须完成。",
+        "en": "Before closure, D1-D7 and all actions related to the specific problem must be complete."
+      },
+      "check_condition": {
+        "zh": "是否仍有未完成、未验证或未移交措施。",
+        "en": "Check for incomplete, unvalidated, or unhanded-over actions."
+      },
+      "blocking_condition": {
+        "zh": "任一问题相关措施仍未完成。",
+        "en": "Any problem-related action remains incomplete."
+      },
+      "completion_condition": {
+        "zh": "D1-D7与全部问题相关措施均完成。",
+        "en": "D1-D7 and all problem-related actions are complete."
+      },
+      "ai_allowed": {
+        "zh": "汇总关闭阻塞项。",
+        "en": "Summarize closure blockers."
+      },
+      "ai_forbidden": {
+        "zh": "忽略开放措施以便关闭。",
+        "en": "Ignore open actions to enable closure."
+      }
+    },
+    {
+      "rule_id": "VDA-D8-B02",
+      "source_type": "VDA_BASIC",
+      "chapter": "8.2 and 8.4.1 D8, pp. 51-52",
+      "step": "D8",
+      "requirement": {
+        "zh": "完整报告应可用，并记录Sponsor和Team Leader两者批准。",
+        "en": "The completed report is to be available with recorded approval by both sponsor and team leader."
+      },
+      "check_condition": {
+        "zh": "报告版本、两项批准、身份和时间是否可追溯。",
+        "en": "Check traceability of report version, both approvals, identities, and times."
+      },
+      "blocking_condition": {
+        "zh": "报告缺失、任一批准缺失或批准绑定旧版本。",
+        "en": "The report is absent, either approval is missing, or approval is bound to an old version."
+      },
+      "completion_condition": {
+        "zh": "当前报告版本获得两项可追溯批准。",
+        "en": "The current report version has both traceable approvals."
+      },
+      "ai_allowed": {
+        "zh": "检查批准完整性和版本一致性。",
+        "en": "Check approval completeness and version consistency."
+      },
+      "ai_forbidden": {
+        "zh": "代表任何批准人确认。",
+        "en": "Confirm on behalf of either approver."
+      }
+    },
+    {
+      "rule_id": "VDA-D8-B03",
+      "source_type": "VDA_BASIC",
+      "chapter": "8.1-8.4.1 D8, pp. 51-52",
+      "step": "D8",
+      "requirement": {
+        "zh": "团队成果应被认可，团队成员应被释放。",
+        "en": "Team performance is to be recognized and team members released."
+      },
+      "check_condition": {
+        "zh": "认可和释放记录是否存在。",
+        "en": "Check for recognition and release records."
+      },
+      "blocking_condition": {
+        "zh": "关闭记录没有团队认可或释放。",
+        "en": "Closure records omit team recognition or release."
+      },
+      "completion_condition": {
+        "zh": "团队认可和释放已记录。",
+        "en": "Team recognition and release are recorded."
+      },
+      "ai_allowed": {
+        "zh": "提醒记录认可与释放。",
+        "en": "Remind the user to record recognition and release."
+      },
+      "ai_forbidden": {
+        "zh": "生成虚假会议或认可记录。",
+        "en": "Generate a false meeting or recognition record."
+      }
+    },
+    {
+      "rule_id": "VDA-D8-E01",
+      "source_type": "VDA_EXCELLENCE",
+      "chapter": "8.4.2 D8 - Criteria for reaching excellent, p. 52",
+      "step": "D8",
+      "requirement": {
+        "zh": "优秀D8有可理解的自评记录，并尽可能由所有参与者参加完成会议。",
+        "en": "An excellent D8 has understandable self-assessment records and, where possible, a completion meeting attended by all participants."
+      },
+      "check_condition": {
+        "zh": "自评和完成会议是否记录。",
+        "en": "Check whether self-assessment and a completion meeting are recorded."
+      },
+      "blocking_condition": {
+        "zh": "无；不得阻塞D8基础完成。",
+        "en": "None; this must not block D8 baseline completion."
+      },
+      "completion_condition": {
+        "zh": "单独记录Excellence状态。",
+        "en": "Record excellence status separately."
+      },
+      "ai_allowed": {
+        "zh": "建议自评议程或会议要点。",
+        "en": "Suggest a self-assessment agenda or meeting points."
+      },
+      "ai_forbidden": {
+        "zh": "因未举行全员会议而判基础关闭失败。",
+        "en": "Fail baseline closure because an all-participant meeting was not held."
+      }
+    },
+    {
+      "rule_id": "VDA-D8-M01",
+      "source_type": "VDA_METHOD_GUIDANCE",
+      "chapter": "8.2-8.3 D8 Process and tools, pp. 51-52",
+      "step": "D8",
+      "requirement": {
+        "zh": "宜举行完成会议并进行结构化评估和反馈；Sponsor可在管理评审中呈现结果。",
+        "en": "A completion meeting with structured assessment and feedback is advisable; the sponsor may present outcomes in management review."
+      },
+      "check_condition": {
+        "zh": "方法是否有助于客观总结和组织学习。",
+        "en": "Check whether the method supports objective review and organizational learning."
+      },
+      "blocking_condition": {
+        "zh": "无；具体会议形式不单独构成基础Gate。",
+        "en": "None; the specific meeting format is not a standalone baseline gate."
+      },
+      "completion_condition": {
+        "zh": "作为方法建议单独记录。",
+        "en": "Record separately as method guidance."
+      },
+      "ai_allowed": {
+        "zh": "生成会议议程草案。",
+        "en": "Draft a meeting agenda."
+      },
+      "ai_forbidden": {
+        "zh": "虚构参与者反馈或管理评审结果。",
+        "en": "Invent participant feedback or management-review outcomes."
+      }
+    },
+    {
+      "rule_id": "PR-D8-001",
+      "source_type": "PRODUCT_RULE",
+      "chapter": "Product AI policy - closure authority; grounded in VDA 8.2 and 8.4.1, pp. 51-52",
+      "step": "D8",
+      "requirement": {
+        "zh": "D8 Gate不得自动关闭；必须保留Sponsor和Team Leader对当前Revision的明确人工批准。",
+        "en": "The D8 gate must not auto-close; explicit human approvals by the sponsor and team leader for the current revision must be retained."
+      },
+      "check_condition": {
+        "zh": "Gate是否绑定当前Revision/Fingerprint和两项人工批准。",
+        "en": "Check whether the gate is bound to the current revision/fingerprint and both human approvals."
+      },
+      "blocking_condition": {
+        "zh": "任一批准缺失、过期、Stale或由AI/系统代替。",
+        "en": "Either approval is missing, outdated, stale, or substituted by AI/system."
+      },
+      "completion_condition": {
+        "zh": "系统仅在全部基础条件满足且两项人工批准有效时显示可关闭。",
+        "en": "The system shows eligible for closure only when all baseline conditions are met and both human approvals are valid."
+      },
+      "ai_allowed": {
+        "zh": "显示“待批准”并解释阻塞。",
+        "en": "Show 'pending approval' and explain blockers."
+      },
+      "ai_forbidden": {
+        "zh": "点击、模拟或推断批准。",
+        "en": "Click, simulate, or infer approval."
+      }
+    }
+  ]
+}

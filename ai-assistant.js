@@ -19,7 +19,58 @@
     messages: [],
     lastRequest: null
   };
+  let rulesPackagePromise = null;
+  let rulesPackage = null;
   let hoverCloseTimer = null;
+
+  function loadRulesPackage() {
+    if (rulesPackage) return Promise.resolve(rulesPackage);
+    if (rulesPackagePromise) return rulesPackagePromise;
+    const url = config.rulesUrl || "vda8d-ai-rules.json";
+    rulesPackagePromise = fetch(url, { headers: { Accept: "application/json" } })
+      .then(response => response.ok ? response.json() : Promise.reject(new Error(`rules_http_${response.status}`)))
+      .then(value => {
+        if (!value || !Array.isArray(value.rules)) throw new Error("rules_schema");
+        rulesPackage = value;
+        return value;
+      })
+      .catch(error => {
+        console.warn("[QualityCopilot] VDA 8D rules package unavailable", error);
+        rulesPackagePromise = null;
+        return null;
+      });
+    return rulesPackagePromise;
+  }
+
+  function rulesForRequest(packageValue) {
+    if (!packageValue || config.currentTool !== "guided_8d_investigation") return null;
+    const step = String(typeof config.currentStep === "function" ? config.currentStep() : "GLOBAL").toUpperCase();
+    const selected = packageValue.rules
+      .filter(rule => rule.step === "GLOBAL" || rule.step === step)
+      .slice(0, 24)
+      .map(rule => ({
+        rule_id: rule.rule_id,
+        source_type: rule.source_type,
+        chapter: rule.chapter,
+        step: rule.step,
+        requirement: rule.requirement,
+        check_condition: rule.check_condition,
+        blocking_condition: rule.blocking_condition,
+        completion_condition: rule.completion_condition,
+        ai_allowed: rule.ai_allowed,
+        ai_forbidden: rule.ai_forbidden,
+      }));
+    const causeModel = step === "D4"
+      ? packageValue.disciplines?.D4?.cause_model || []
+      : [];
+    return {
+      package_id: packageValue.package?.package_id || "vda8d-ai-rules",
+      version: packageValue.package?.version || "unknown",
+      step,
+      rules: selected,
+      cause_model: causeModel,
+    };
+  }
 
   const COPY = {
     en: {
@@ -317,7 +368,7 @@
     return zh || en;
   }
 
-  function buildMessagesForRequest(question, useContext) {
+  function buildMessagesForRequest(question, useContext, packageValue = null) {
     const recent = state.messages
       .filter(message => message.role === "user" || message.role === "assistant")
       .slice(-8)
@@ -340,6 +391,8 @@
       payload.available_context = summary.available_context;
       payload.analysis_type = summary.analysis_type;
     }
+    const vda8dRules = rulesForRequest(packageValue);
+    if (vda8dRules) payload.vda8d_rules = vda8dRules;
     return payload;
   }
 
@@ -451,13 +504,14 @@
   async function sendChat(question) {
     const cleanQuestion = String(question || "").trim();
     if (!cleanQuestion || state.waiting) return;
+    state.waiting = true;
     const useContext = requiresPageContext(cleanQuestion);
-    const requestBody = buildMessagesForRequest(cleanQuestion, useContext);
+    const packageValue = config.currentTool === "guided_8d_investigation" ? await loadRulesPackage() : null;
+    const requestBody = buildMessagesForRequest(cleanQuestion, useContext, packageValue);
     state.lastRequest = requestBody;
     state.messages.push({ role: "user", content: cleanQuestion });
     renderMessages();
     track("ai_mode_selected", { mode: useContext ? "chat_with_page_context" : "chat_general", current_tool: config.currentTool });
-    state.waiting = true;
     renderLoading();
     const payload = await callWorker(requestBody);
     clearPending();
