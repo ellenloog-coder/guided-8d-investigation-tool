@@ -14,7 +14,7 @@
 
 ## Validation
 
-- Integrity self-tests: 42/42 passed
+- Integrity self-tests: 117/117 passed
 - Browser smoke validation passed
 - Legacy v31 migration passed
 
